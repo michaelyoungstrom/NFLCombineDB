@@ -15,7 +15,7 @@ public class footballDb {
 
     public static void main(String[] args) throws
             ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException, IOException {
-
+        
         LoginForm form = new LoginForm();
         form.setVisible(true);
     }

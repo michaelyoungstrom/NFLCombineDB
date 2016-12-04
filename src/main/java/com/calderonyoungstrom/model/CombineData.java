@@ -34,28 +34,4 @@ public class CombineData {
         this.college = college;
         this.combineYear = combineYear;
     }
-
-    public String getCombineId() { return getCombineId(); }
-
-    public String getPlayerId() { return playerId; }
-
-    public float getHeight(){ return height; }
-
-    public int getWeight(){ return weight; }
-
-    public float getForty(){ return forty; }
-
-    public float getTwenty(){ return twenty; }
-
-    public  float getThreecone(){ return threecone; }
-
-    public float getVertical(){ return vertical; }
-
-    public int getBroad(){ return broad; }
-
-    public int getBench(){ return bench; }
-
-    public String getCollege(){ return college; }
-
-    public int getCombineYear(){ return combineYear; }
 }
