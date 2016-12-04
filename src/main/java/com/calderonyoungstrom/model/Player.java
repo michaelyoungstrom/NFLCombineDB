@@ -55,4 +55,16 @@ public class Player {
     public ReceivingData getReceivingData(){
         return receivingData;
     }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
 }
