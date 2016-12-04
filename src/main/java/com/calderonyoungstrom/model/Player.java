@@ -3,8 +3,8 @@ package com.calderonyoungstrom.model;
 public class Player {
 
     private String playerId;
-    private String fname;
-    private String lname;
+    private String firstName;
+    private String lastName;
     private String team;
 
     private CombineData combine;
@@ -13,22 +13,16 @@ public class Player {
     private ReceivingData receivingData;
 
     //Constructor
-    public Player(String playerId, String fname, String lname, String team){
+    public Player(String playerId, String firstName, String lastName, String team){
         this.playerId = playerId;
-        this.fname = fname;
-        this.lname = lname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.team = team;
     }
 
     public String getPlayerId(){
         return this.playerId;
     }
-
-    public String getFname() { return this.fname; }
-
-    public String getLname(){ return this.lname; }
-
-    public String getTeam(){ return this.team; }
 
     public void setCombineData(CombineData combine){
         this.combine = combine;
@@ -60,5 +54,25 @@ public class Player {
 
     public ReceivingData getReceivingData(){
         return receivingData;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
     }
 }
