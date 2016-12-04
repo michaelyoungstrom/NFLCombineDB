@@ -15,7 +15,7 @@ public class footballDb {
 
     public static void main(String[] args) throws
             ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException, IOException {
-        
+
         LoginForm form = new LoginForm();
         form.setVisible(true);
     }
@@ -40,8 +40,21 @@ public class footballDb {
         cs.setString(3, lname);
         cs.setString(4, team);
         ResultSet rs2 = cs.executeQuery();
-
     }
+
+    public static void deletePlayer(Connection connection, String fname, String lname)
+            throws SQLException, IOException {
+        createProcedureDeletePlayer(connection);
+
+        ArrayList<Player> players = findPlayersByName(connection, fname, lname);
+
+        String playerId = players.get(0).getPlayerId();
+
+        CallableStatement cs = connection.prepareCall("{call DELETEPLAYER(?)}");
+        cs.setString(1, playerId);
+        ResultSet rs2 = cs.executeQuery();
+    }
+
 
     public static ArrayList<Player> findPlayersByName(Connection connection, String fname, String lname) throws
             IOException, SQLException {
@@ -204,6 +217,26 @@ public class footballDb {
                         "BEGIN " +
                         "INSERT INTO players (playerId, fname, lname, team) " +
                         "VALUES (playerIdIn, fnameIn, lnameIn, teamIn); " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
+    }
+
+    public static void createProcedureDeletePlayer(Connection connection) throws SQLException{
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS DELETEPLAYER";
+
+        String createProcedure =
+                "CREATE PROCEDURE deletePlayer(" +
+                        "IN playerIdIn VARCHAR(10)) " +
+                        "BEGIN " +
+                        "DELETE FROM players " +
+                        "WHERE playerId = playerIdIn; " +
                         "END";
 
         Statement stmtDrop = connection.createStatement();
