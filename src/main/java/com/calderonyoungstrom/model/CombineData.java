@@ -1,3 +1,5 @@
+package com.calderonyoungstrom.model;
+
 /**
  * Created by mayoungstrom on 12/4/16.
  */

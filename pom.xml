@@ -33,7 +33,7 @@
                     <finalName>NFLCombineDB</finalName>
                     <archive>
                         <manifest>
-                            <mainClass>footballDB</mainClass>
+                            <mainClass>com.calderonyoungstrom.footballDb</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

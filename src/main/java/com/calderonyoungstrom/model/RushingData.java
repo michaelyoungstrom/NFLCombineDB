@@ -1,3 +1,5 @@
+package com.calderonyoungstrom.model;
+
 public class RushingData {
 
     private String rushingId;

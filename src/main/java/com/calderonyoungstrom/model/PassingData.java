@@ -1,3 +1,5 @@
+package com.calderonyoungstrom.model;
+
 public class PassingData {
 
     private String passingId;

@@ -1,4 +1,4 @@
-
+package com.calderonyoungstrom.model;
 
 public class Player {
 
