@@ -16,19 +16,6 @@ public class footballDb {
     public static void main(String[] args) throws
             ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException, IOException {
 
-//        String username = "root";
-//        //ENTER PASSWORD HERE!!!!!
-//        String password = "Pass1234";
-//
-//        Connection connection = loginToDB(username, password);
-//
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//
-//        ArrayList<Player> players = findPlayersByName(connection, "Tom", "Brady");
-//        Player player = players.get(0);
-//
-//        getPassingData(connection, player);
-//        System.out.print("Touchdowns: " + player.getPassingData().getTouchdowns());
         LoginForm form = new LoginForm();
         form.setVisible(true);
     }
