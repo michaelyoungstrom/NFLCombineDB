@@ -41,6 +41,4 @@ public class PassingData {
     public float getRating(){
         return rating;
     }
-
-
 }

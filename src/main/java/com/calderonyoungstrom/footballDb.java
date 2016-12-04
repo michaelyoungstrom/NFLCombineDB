@@ -29,6 +29,20 @@ public class footballDb {
         return connection;
     }
 
+    public static void insertNewPlayer(Connection connection, String playerId, String fname, String lname, String team)
+            throws SQLException {
+        createProcedureInsertNewPlayer(connection);
+        Player newPlayer = new Player(playerId, fname, lname, team);
+
+        CallableStatement cs = connection.prepareCall("{call INSERTNEWPLAYER(?,?,?,?)}");
+        cs.setString(1, playerId);
+        cs.setString(2, fname);
+        cs.setString(3, lname);
+        cs.setString(4, team);
+        ResultSet rs2 = cs.executeQuery();
+
+    }
+
     public static ArrayList<Player> findPlayersByName(Connection connection, String fname, String lname) throws
             IOException, SQLException {
             //Find all Players that match the desired player fname and lname
@@ -174,6 +188,29 @@ public class footballDb {
             yardsPerRec, touchdowns, yardsPerGame);
             player.setReceivingData(receivingData);
         }
+    }
+
+    public static void createProcedureInsertNewPlayer(Connection connection) throws SQLException{
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS INSERTNEWPLAYER";
+
+        String createProcedure =
+                "CREATE PROCEDURE insertNewPlayer(" +
+                        "IN playerIdIn VARCHAR(10), " +
+                        "IN fnameIn VARCHAR(50), " +
+                        "IN lnameIn VARCHAR(50), " +
+                        "IN teamIn VARCHAR(3)) " +
+                        "BEGIN " +
+                        "INSERT INTO players (playerId, fname, lname, team) " +
+                        "VALUES (playerIdIn, fnameIn, lnameIn, teamIn); " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
     }
 
     public static void createProcedureGetCombineData(Connection connection)

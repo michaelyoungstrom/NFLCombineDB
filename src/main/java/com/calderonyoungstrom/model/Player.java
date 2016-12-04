@@ -24,6 +24,12 @@ public class Player {
         return this.playerId;
     }
 
+    public String getFname() { return this.fname; }
+
+    public String getLname(){ return this.lname; }
+
+    public String getTeam(){ return this.team; }
+
     public void setCombineData(CombineData combine){
         this.combine = combine;
     }

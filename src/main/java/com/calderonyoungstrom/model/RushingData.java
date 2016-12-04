@@ -21,4 +21,15 @@ public class RushingData {
         this.yardsPerAttempt = yardsPerAttempt;
         this.yardsPerGame = yardsPerGame;
     }
+
+    public int getYards(){ return yards; }
+
+    public int getTouchdowns(){ return touchdowns; }
+
+    public int getLongest(){ return longest; }
+
+    public float getYardsPerAttempt(){ return yardsPerAttempt; }
+
+    public float getYardsPerGame(){ return yardsPerGame; }
+
 }

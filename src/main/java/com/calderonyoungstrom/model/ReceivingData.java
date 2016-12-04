@@ -1,8 +1,5 @@
 package com.calderonyoungstrom.model;
 
-/**
- * Created by mayoungstrom on 12/4/16.
- */
 public class ReceivingData {
 
     private String receivingId;
@@ -26,6 +23,18 @@ public class ReceivingData {
         this.touchdowns = touchdowns;
         this.yardsPerGame = yardsPerGame;
     }
+
+    public int getReceptions(){ return receptions; }
+
+    public float getCatchPerc(){ return catchPerc; }
+
+    public int getYards(){ return yards; }
+
+    public float getYardsPerRec(){ return yardsPerRec; }
+
+    public int getTouchdowns(){ return touchdowns; }
+
+    public float getYardsPerGame(){ return yardsPerGame; }
 
 
 }

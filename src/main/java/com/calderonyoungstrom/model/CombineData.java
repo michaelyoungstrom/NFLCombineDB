@@ -1,8 +1,5 @@
 package com.calderonyoungstrom.model;
 
-/**
- * Created by mayoungstrom on 12/4/16.
- */
 public class CombineData {
 
     private String combineId;
@@ -34,4 +31,24 @@ public class CombineData {
         this.college = college;
         this.combineYear = combineYear;
     }
+
+    public float getHeight(){ return this.height; }
+
+    public int getWeight(){ return this.weight; }
+
+    public float getForty(){ return this.forty; }
+
+    public float getTwenty(){ return this.twenty; }
+
+    public float getThreecone(){ return this.threecone; }
+
+    public float getVertical(){ return this.vertical; }
+
+    public int getBroad(){ return this.broad; }
+
+    public int getBench(){ return this.bench; }
+
+    public String getCollege(){ return this.college; }
+
+    public int getCombineYear(){ return this.combineYear; }
 }
