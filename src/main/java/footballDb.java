@@ -9,9 +9,10 @@ public class footballDb {
 
         String username = "root";
         //ENTER PASSWORD HERE!!!!!
-        String password = "";
+        String password = "Pass1234";
 
         Connection connection = loginToDB(username, password);
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         ArrayList<Player> players = findPlayersByName(connection, "Tom", "Brady");
@@ -27,7 +28,6 @@ public class footballDb {
         //Connect to DB with credentials
         String url = "jdbc:mysql://localhost:3306/footballProject?autoReconnect=true&useSSL=false";
         Connection connection = DriverManager.getConnection(url, username, password);
-        Class.forName("com.mysql.jdbc.Driver").newInstance();
 
         return connection;
     }
