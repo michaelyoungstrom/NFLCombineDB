@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public class DatabaseHelper {
     private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "***REMOVED***";
+    private static final String DB_PASSWORD = "Pass1234";
 
     public static Connection loginToDB() throws ClassNotFoundException, SQLException,
             IllegalAccessException, InstantiationException {
