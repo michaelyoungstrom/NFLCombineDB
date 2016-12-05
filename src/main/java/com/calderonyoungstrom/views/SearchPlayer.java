@@ -219,7 +219,7 @@ public class SearchPlayer extends JFrame {
         playerToUpdate.setTeam(newTeam);
 
         try {
-            PlayersHelper.updatePlayer(DatabaseHelper.loginToDB(), playerToUpdate);
+            PlayersHelper.updatePlayer(DatabaseHelper.loginToDB(), playerToUpdate, newFirstName, newLastName, newTeam);
         } catch (SQLException | IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }

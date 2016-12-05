@@ -107,16 +107,15 @@ public class PlayersHelper {
         ResultSet rs2 = cs.executeQuery();
     }
 
-    public static void updatePlayer(Connection connection, Player player)
-            throws SQLException, IOException {
-        createProcedureDeletePlayer(connection);
+    public static void updatePlayer(Connection connection, Player player, String newFname,
+                                    String newLname, String newTeamName) throws SQLException, IOException {
+        createProcedureUpdatePlayer(connection);
 
-        ArrayList<Player> players = findPlayersByName(connection, player.getFirstName(), player.getLastName());
-
-        String playerId = players.get(0).getPlayerId();
-
-        CallableStatement cs = connection.prepareCall("{call UPDATEPLAYER (?)}");
-        cs.setString(1, playerId);
+        CallableStatement cs = connection.prepareCall("{call UPDATEPLAYER (?,?,?,?)}");
+        cs.setString(1, player.getPlayerId());
+        cs.setString(2, newFname);
+        cs.setString(3, newLname);
+        cs.setString(4, newTeamName);
         ResultSet rs2 = cs.executeQuery();
     }
 
@@ -237,6 +236,32 @@ public class PlayersHelper {
                     yardsPerRec, touchdowns, yardsPerGame);
             player.setReceivingData(receivingData);
         }
+    }
+
+    public static void createProcedureUpdatePlayer(Connection connection) throws SQLException{
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS UPDATEPLAYER";
+
+        String createProcedure =
+                "CREATE PROCEDURE updatePlayer(" +
+                        "IN playerIdIn VARCHAR(10), " +
+                        "IN fnameIn VARCHAR(50), " +
+                        "IN lnameIn VARCHAR(50), " +
+                        "IN teamIn VARCHAR(3)) " +
+                        "BEGIN " +
+                        "UPDATE players SET " +
+                        "fname = fnameIn, " +
+                        "lname = lnameIn, " +
+                        "team = teamIn " +
+                        "WHERE playerId = playerIdIn; " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
     }
 
     public static void createProcedureInsertNewPlayer(Connection connection) throws SQLException{
