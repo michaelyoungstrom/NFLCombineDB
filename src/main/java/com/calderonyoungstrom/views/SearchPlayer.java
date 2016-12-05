@@ -199,8 +199,8 @@ public class SearchPlayer extends JFrame {
 
         boolean teamRequired = true;
 
-        String newFirstName = txtDetailsFirstName.getName();
-        String newLastName = txtDetailsLastName.getName();
+        String newFirstName = txtDetailsFirstName.getText();
+        String newLastName = txtDetailsLastName.getText();
         String newTeam = txtDetailsTeam.getText();
 
         if (newFirstName.isEmpty()) {
