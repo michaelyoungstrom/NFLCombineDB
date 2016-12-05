@@ -48,6 +48,7 @@ public class SearchPlayer extends JFrame {
     public SearchPlayer() {
         super("Search Player");
         initialize();
+
     }
 
     private void initialize() {
@@ -109,6 +110,14 @@ public class SearchPlayer extends JFrame {
 
             }
         });
+
+        btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateClicked();
+            }
+        });
+
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -182,9 +191,11 @@ public class SearchPlayer extends JFrame {
     }
 
     private void updateClicked() {
-        if (selectedPlayer == null) {
+        if (selectedIndex < 0) {
             return;
         }
+
+        Player playerToUpdate = listModel.getElementAt(selectedIndex);
 
         boolean teamRequired = true;
 
@@ -203,12 +214,12 @@ public class SearchPlayer extends JFrame {
             return;
         }
 
-        selectedPlayer.setFirstName(newFirstName);
-        selectedPlayer.setLastName(newLastName);
-        selectedPlayer.setTeam(newTeam);
+        playerToUpdate.setFirstName(newFirstName);
+        playerToUpdate.setLastName(newLastName);
+        playerToUpdate.setTeam(newTeam);
 
         try {
-            PlayersHelper.updatePlayer(DatabaseHelper.loginToDB(), selectedPlayer);
+            PlayersHelper.updatePlayer(DatabaseHelper.loginToDB(), playerToUpdate);
         } catch (SQLException | IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
