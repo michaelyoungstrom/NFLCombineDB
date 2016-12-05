@@ -17,7 +17,6 @@ public class footballDb {
     public static void main(String[] args) throws
             ClassNotFoundException, SQLException, IllegalAccessException, InstantiationException, IOException {
 
-
         SearchPlayer searchPlayer = new SearchPlayer();
         searchPlayer.setVisible(true);
     }
