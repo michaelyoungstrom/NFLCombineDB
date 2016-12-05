@@ -43,6 +43,27 @@ public class SearchPlayer extends JFrame {
     public SearchPlayer() {
         super("Search Player");
         initialize();
+        btnStats.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (selectedPlayer == null) {
+                    return;
+                }
+                try {
+                    PlayersHelper.getCombineData(DatabaseHelper.loginToDB(), selectedPlayer);
+                    PlayersHelper.getPassingData(DatabaseHelper.loginToDB(), selectedPlayer);
+                    PlayersHelper.getReceivingData(DatabaseHelper.loginToDB(), selectedPlayer);
+                    PlayersHelper.getRushingData(DatabaseHelper.loginToDB(), selectedPlayer);
+
+                    PlayerStats playerStats = new PlayerStats(selectedPlayer);
+                    playerStats.setVisible(true);
+
+                } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e1) {
+                    e1.printStackTrace();
+                }
+
+            }
+        });
     }
 
     private void initialize() {
