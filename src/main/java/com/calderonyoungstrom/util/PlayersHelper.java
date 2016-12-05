@@ -98,7 +98,16 @@ public class PlayersHelper {
         ResultSet rs2 = cs.executeQuery();
     }
 
-    public static void deletePlayer(Connection connection, String fname, String lname)
+    public static void deletePlayer(Connection connection, String playerId)
+            throws SQLException, IOException {
+
+        createProcedureDeletePlayer(connection);
+        CallableStatement cs = connection.prepareCall("{call DELETEPLAYER(?)}");
+        cs.setString(1, playerId);
+        ResultSet rs2 = cs.executeQuery();
+    }
+
+    public static void updatePlayer(Connection connection, String fname, String lname)
             throws SQLException, IOException {
         createProcedureDeletePlayer(connection);
 
