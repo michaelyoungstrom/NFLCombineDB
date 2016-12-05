@@ -43,14 +43,11 @@ public class PlayerStats extends JFrame {
     private JLabel txtPassingTouchdown;
     private JLabel txtPassingInterceptions;
     private JLabel txtPassingRating;
-    private JLabel lblCombinedData;
-    private JLabel lblReceivingData;
-    private JLabel lblPassingInfo;
-    private JLabel lblRushingInfo;
 
     private Player currentPlayer;
 
     public PlayerStats(Player player) {
+        super(player.getFirstName() + " " + player.getLastName() + " stats");
         if (player == null) {
             throw new IllegalArgumentException("Player can't be null");
         }
@@ -58,10 +55,6 @@ public class PlayerStats extends JFrame {
         this.currentPlayer = player;
 
         initialize();
-    }
-
-    private PlayerStats(){
-        super("Player Stats");
     }
 
     private void initialize(){
@@ -72,28 +65,24 @@ public class PlayerStats extends JFrame {
 
         if (currentPlayer.getCombineData() == null) {
             panelCombinedData.setVisible(false);
-            lblCombinedData.setVisible(false);
         } else {
             setCombinedData(currentPlayer.getCombineData());
         }
 
         if (currentPlayer.getReceivingData() == null) {
             panelReceivingInfo.setVisible(false);
-            lblReceivingData.setVisible(false);
         } else {
             setReceivingData(currentPlayer.getReceivingData());
         }
 
         if (currentPlayer.getPassingData() == null) {
             panelPassingInfo.setVisible(false);
-            lblPassingInfo.setVisible(false);
         } else {
             setPassingData(currentPlayer.getPassingData());
         }
 
         if (currentPlayer.getRushingData() == null) {
             panelRushingInfo.setVisible(false);
-            lblRushingInfo.setVisible(false);
         } else {
             setRushingData(currentPlayer.getRushingData());
         }
@@ -162,4 +151,4 @@ public class PlayerStats extends JFrame {
             setValue(lbl, value + "", naIfEmpty);
         }
     }
-    }
+}

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -24,7 +25,7 @@ public class SearchPlayer extends JFrame {
     private JTextField txtLastName;
     private JButton btnSearch;
     private JPanel panelResultList;
-    private JList<String> listResult;
+    private JList<Player> listResult;
     private JPanel searchPanel;
     private JPanel playerDetailsPanel;
     private JPanel namePanel;
@@ -38,11 +39,55 @@ public class SearchPlayer extends JFrame {
     private boolean loading = false;
     private ArrayList<Player> playersList;
     private Player selectedPlayer;
+    private String currentSearchTermFirstName = null;
+    private String currentSearchTermLastName = null;
+    private int selectedIndex = -1;
+    private DefaultListModel<Player> listModel;
 
 
     public SearchPlayer() {
         super("Search Player");
         initialize();
+    }
+
+    private void initialize() {
+        setContentPane(rootPanel);
+        pack();
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        btnSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                System.out.println("User searched");
+                System.out.println("First name: " + txtFirstName.getText());
+                System.out.println("Last name: " + txtLastName.getText());
+
+                currentSearchTermFirstName = txtFirstName.getName();
+                currentSearchTermLastName = txtLastName.getName();
+
+                searchPlayers();
+
+            }
+        });
+
+        listResult.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (e.getFirstIndex() > -1) {
+                    selectedPlayer = playersList.get(e.getFirstIndex());
+
+                    txtDetailsFirstName.setText(selectedPlayer.getFirstName());
+                    txtDetailsLastName.setText(selectedPlayer.getLastName());
+                    txtDetailsTeam.setText(selectedPlayer.getTeam());
+                    setPlayerDetailsButtonsEnabled(true);
+                    selectedIndex = e.getFirstIndex();
+                } else {
+                    setPlayerDetailsButtonsEnabled(false);
+                }
+            }
+        });
+
         btnStats.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,38 +109,10 @@ public class SearchPlayer extends JFrame {
 
             }
         });
-    }
-
-    private void initialize() {
-        setContentPane(rootPanel);
-        pack();
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        btnSearch.addActionListener(new ActionListener() {
+        btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                System.out.println("User searched");
-                System.out.println("First name: " + txtFirstName.getText());
-                System.out.println("Last name: " + txtLastName.getText());
-                searchPlayers();
-
-            }
-        });
-
-        listResult.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (e.getFirstIndex() > -1) {
-                    selectedPlayer = playersList.get(e.getFirstIndex());
-
-                    txtDetailsFirstName.setText(selectedPlayer.getFirstName());
-                    txtDetailsLastName.setText(selectedPlayer.getLastName());
-                    txtDetailsTeam.setText(selectedPlayer.getTeam());
-                    setPlayerDetailsButtonsEnabled(true);
-                } else {
-                    setPlayerDetailsButtonsEnabled(false);
-                }
+                deleteClicked();
             }
         });
 
@@ -125,10 +142,10 @@ public class SearchPlayer extends JFrame {
             return;
         }
 
-        DefaultListModel<String> listModel = new DefaultListModel<>();
+        listModel = new DefaultListModel<>();
 
         for (Player player : players) {
-           listModel.addElement(player.getFirstName() + " " + player.getLastName() + " - " + player.getTeam());
+           listModel.addElement(player);
         }
 
         listResult.setModel(listModel);
@@ -144,5 +161,57 @@ public class SearchPlayer extends JFrame {
         btnStats.setEnabled(enabled);
         btnDelete.setEnabled(enabled);
         btnUpdate.setEnabled(enabled);
+    }
+
+    private void deleteClicked(){
+        if (selectedPlayer == null) {
+            return;
+        }
+
+        try {
+            int response = JOptionPane.showConfirmDialog(this, String.format(Locale.getDefault(), "Are you sure you want to delete %s %s?", selectedPlayer.getFirstName(), selectedPlayer.getLastName()), "Confirm", JOptionPane.YES_NO_OPTION);
+            if (response == JOptionPane.YES_OPTION) {
+                PlayersHelper.deletePlayer(DatabaseHelper.loginToDB(), selectedPlayer.getPlayerId());
+                if (listModel != null && selectedIndex >= 0) {
+                    listModel.remove(selectedIndex);
+                }
+            }
+        } catch (SQLException | IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateClicked() {
+        if (selectedPlayer == null) {
+            return;
+        }
+
+        boolean teamRequired = true;
+
+        String newFirstName = txtDetailsFirstName.getName();
+        String newLastName = txtDetailsLastName.getName();
+        String newTeam = txtDetailsTeam.getText();
+
+        if (newFirstName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "First name can't be empty");
+            return;
+        } else if (newLastName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Last name can't be empty");
+            return;
+        } else if (newTeam.isEmpty() && teamRequired) {
+            JOptionPane.showMessageDialog(this, "Team name can't be empty");
+            return;
+        }
+
+        selectedPlayer.setFirstName(newFirstName);
+        selectedPlayer.setLastName(newLastName);
+        selectedPlayer.setTeam(newTeam);
+
+        try {
+            PlayersHelper.updatePlayer(DatabaseHelper.loginToDB(), selectedPlayer);
+        } catch (SQLException | IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 }
