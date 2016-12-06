@@ -85,7 +85,6 @@ public class PlayersHelper {
         return players;
     }
 
-
     public static String generatePlayerId(Connection connection, String fname, String lname) throws SQLException{
 
         createProcedureFindPlayerById(connection);
@@ -159,11 +158,47 @@ public class PlayersHelper {
                                     String newLname, String newTeamName) throws SQLException, IOException {
         createProcedureUpdatePlayer(connection);
 
+        updatePassing(connection, player, (float) 64.4, 4770, 36, 7, (float) 102.2);
+
         CallableStatement cs = connection.prepareCall("{call UPDATEPLAYER (?,?,?,?)}");
         cs.setString(1, player.getPlayerId());
         cs.setString(2, newFname);
         cs.setString(3, newLname);
         cs.setString(4, newTeamName);
+        //ResultSet rs2 = cs.executeQuery();
+    }
+
+    public static void updateCombine(Connection connection, Player player, float height, int weight, float forty,
+                                     float twenty, float threecone, float vertical, int broad, int bench,
+                                     String college, int combineYear) throws SQLException{
+        createProcedureUpdateCombine(connection);
+
+        CallableStatement cs = connection.prepareCall("{call UPDATECOMBINE (?,?,?,?,?,?,?,?,?,?,?)}");
+        cs.setString(1, player.getPlayerId());
+        cs.setFloat(2, height);
+        cs.setInt(3, weight);
+        cs.setFloat(4, forty);
+        cs.setFloat(5, twenty);
+        cs.setFloat(6, threecone);
+        cs.setFloat(7, vertical);
+        cs.setInt(8, broad);
+        cs.setInt(9, bench);
+        cs.setString(10, college);
+        cs.setInt(11, combineYear);
+        ResultSet rs2 = cs.executeQuery();
+    }
+
+    public static void updatePassing(Connection connection, Player player, float compPerc, int yards,
+                                     int touchdowns, int interceptions, float rating) throws SQLException {
+        createProcedureUpdatePassing(connection);
+
+        CallableStatement cs = connection.prepareCall("{call UPDATEPASSING (?,?,?,?,?,?)}");
+        cs.setString(1, player.getPlayerId());
+        cs.setFloat(2, compPerc);
+        cs.setInt(3, yards);
+        cs.setInt(4, touchdowns);
+        cs.setInt(5, interceptions);
+        cs.setFloat(6, rating);
         ResultSet rs2 = cs.executeQuery();
     }
 
@@ -178,14 +213,13 @@ public class PlayersHelper {
         cs.setString(1, playerId);
         ResultSet rs2 = cs.executeQuery();
 
-        int height; int weight; float forty; float twenty; float threecone; float vertical;
+        float height; int weight; float forty; float twenty; float threecone; float vertical;
         int broad; int bench; String college; int year;
 
         while (rs2.next()) {
             year = rs2.getInt("combineYear");
-            height = rs2.getInt("height");
+            height = rs2.getFloat("height");
             weight = rs2.getInt("weight");
-
             forty = rs2.getFloat("forty");
             twenty = rs2.getFloat("twenty");
             threecone = rs2.getFloat("threecone");
@@ -284,6 +318,76 @@ public class PlayersHelper {
                     yardsPerRec, touchdowns, yardsPerGame);
             player.setReceivingData(receivingData);
         }
+    }
+
+    public static void createProcedureUpdateCombine(Connection connection) throws SQLException{
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS UPDATECOMBINE";
+
+        String createProcedure =
+                "CREATE PROCEDURE updateCombine(" +
+                        "IN playerIdIn VARCHAR(10), " +
+                        "IN heightIn DECIMAL(3,1), " +
+                        "IN weightIn INT, " +
+                        "IN fortyIn DECIMAL(3,2), " +
+                        "IN twentyIn DECIMAL(3,2), " +
+                        "IN threeconeIn DECIMAL(3,2), " +
+                        "IN verticalIn DECIMAL(3,1), " +
+                        "IN broadIn INT, " +
+                        "IN benchIn INT, " +
+                        "IN collegeIn VARCHAR(30), " +
+                        "IN combineYearIn INT) " +
+                        "BEGIN " +
+                        "UPDATE combineData SET " +
+                        "height = heightIn, " +
+                        "weight = weightIn, " +
+                        "forty = fortyIn, " +
+                        "twenty = twentyIn, " +
+                        "threecone = threeconeIn, " +
+                        "vertical = verticalIn, " +
+                        "broad = broadIn, " +
+                        "bench = benchIn, " +
+                        "college = collegeIn, " +
+                        "combineYear = combineYearIn " +
+                        "WHERE playerId = playerIdIn; " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
+    }
+
+    public static void createProcedureUpdatePassing(Connection connection) throws SQLException{
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS UPDATEPASSING";
+
+        String createProcedure =
+                "CREATE PROCEDURE updatePassing(" +
+                        "IN playerIdIn VARCHAR(10), " +
+                        "IN compPercIn FLOAT, " +
+                        "IN yardsIn INT, " +
+                        "IN touchdownsIn INT, " +
+                        "IN interceptionsIn INT, " +
+                        "IN ratingIn float) " +
+                        "BEGIN " +
+                        "UPDATE passingInfo SET " +
+                        "compPerc = compPercIn, " +
+                        "yards = yardsIn, " +
+                        "touchdowns = touchdownsIn, " +
+                        "interceptions = interceptionsIn, " +
+                        "rating = ratingIn " +
+                        "WHERE playerId = playerIdIn; " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
     }
 
     public static void createProcedureUpdatePlayer(Connection connection) throws SQLException{
