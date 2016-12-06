@@ -1,5 +1,6 @@
 package com.calderonyoungstrom.views;
 
+import com.calderonyoungstrom.model.RushingData;
 import com.calderonyoungstrom.model.Player;
 import com.calderonyoungstrom.util.DatabaseHelper;
 import com.calderonyoungstrom.util.PlayersHelper;
@@ -22,10 +23,17 @@ public class rushingInput extends JFrame{
     private JButton btnOk;
 
     private Player currentPlayer;
+    private boolean isUpdate;
 
-    public rushingInput(Player player) {
+    public rushingInput(Player player, boolean isUpdate) {
         super("Rushing Input");
         this.currentPlayer = player;
+        this.isUpdate = isUpdate;
+
+        if (isUpdate){
+            setValues();
+        }
+
         initialize();
     }
 
@@ -62,15 +70,34 @@ public class rushingInput extends JFrame{
             float yardsPerAttempt = Float.parseFloat(txtYardsPerAtt.getText());
             float yardsPerGame = Float.parseFloat(txtYardsPerGame.getText());
 
-            PlayersHelper.insertNewRushing
-                    (DatabaseHelper.loginToDB(), currentPlayer, yards, touchdowns, longest, yardsPerAttempt,
-                            yardsPerGame);
+            if (isUpdate){
+                PlayersHelper.updateRushing(DatabaseHelper.loginToDB(), currentPlayer,
+                        yards, touchdowns, longest, yardsPerAttempt, yardsPerGame);
+            } else {
+                PlayersHelper.insertNewRushing
+                        (DatabaseHelper.loginToDB(), currentPlayer, yards, touchdowns, longest, yardsPerAttempt,
+                                yardsPerGame);
+            }
 
-            JOptionPane.showMessageDialog(this, "Rushing Data Successfully added!");
+            if (isUpdate){
+                JOptionPane.showMessageDialog(this, "Rushing Data successfully updated!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Rushing Data successfully added!");
+            }
             Panel1.setVisible(false);
             dispose();
         } catch(Exception ex){
             JOptionPane.showMessageDialog(this, "Invalid input");
         }
+    }
+
+    public void setValues(){
+        RushingData rushingData = currentPlayer.getRushingData();
+
+        txtYards.setText(Integer.toString(rushingData.getYards()));
+        txtTouchdowns.setText(Integer.toString(rushingData.getTouchdowns()));
+        txtLongest.setText(Integer.toString(rushingData.getLongest()));
+        txtYardsPerAtt.setText(Float.toString(rushingData.getYardsPerAttempt()));
+        txtYardsPerGame.setText(Float.toString(rushingData.getYardsPerGame()));
     }
 }

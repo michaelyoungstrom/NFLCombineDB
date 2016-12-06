@@ -283,18 +283,15 @@ public class SearchPlayer extends JFrame {
 
                 switch(choice){
                     case "Combine":
-                        //combine code
                         combineInput combine = new combineInput(selectedPlayer, false);
                         combine.setVisible(true);
                         break;
                     case "Passing":
-                        //passing code
                         passingInput passing = new passingInput(selectedPlayer, false);
                         passing.setVisible(true);
                         break;
                     case "Rushing":
-                        //rushing code
-                        rushingInput rushing = new rushingInput(selectedPlayer);
+                        rushingInput rushing = new rushingInput(selectedPlayer, false);
                         rushing.setVisible(true);
                         break;
                     case "Receiving":
@@ -385,7 +382,8 @@ public class SearchPlayer extends JFrame {
                 passing.setVisible(true);
                 break;
             case "Rushing":
-                //rushing code
+                rushingInput rushing = new rushingInput(selectedPlayer, true);
+                rushing.setVisible(true);
                 break;
             case "Receiving":
                 //receiving code
