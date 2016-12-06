@@ -838,6 +838,4 @@ public class PlayersHelper {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate(createProcedure);
     }
-
-
 }

@@ -1,6 +1,6 @@
 package com.calderonyoungstrom.views;
 
-import com.calderonyoungstrom.model.Player;
+import com.calderonyoungstrom.model.*;
 import com.calderonyoungstrom.util.DatabaseHelper;
 import com.calderonyoungstrom.util.PlayersHelper;
 
@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -36,6 +37,7 @@ public class SearchPlayer extends JFrame {
     private JTextField txtDetailsFirstName;
     private JTextField txtDetailsLastName;
     private JTextField txtDetailsTeam;
+    private JButton btnAdd;
     private boolean loading = false;
     private ArrayList<Player> playersList;
     private Player selectedPlayer;
@@ -125,6 +127,23 @@ public class SearchPlayer extends JFrame {
             }
         });
 
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    addClicked();
+                } catch (ClassNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                } catch (InstantiationException e1) {
+                    e1.printStackTrace();
+                } catch (IllegalAccessException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
         setPlayerDetailsButtonsEnabled(false);
 
     }
@@ -178,6 +197,100 @@ public class SearchPlayer extends JFrame {
         }
 
         try {
+            int response = JOptionPane.showConfirmDialog(this, String.format(Locale.getDefault(),
+                    "Are you sure you want to delete %s %s?", selectedPlayer.getFirstName(),
+                    selectedPlayer.getLastName()), "Confirm", JOptionPane.YES_NO_OPTION);
+            if (response == JOptionPane.YES_OPTION) {
+                PlayersHelper.deletePlayer(DatabaseHelper.loginToDB(), selectedPlayer.getPlayerId());
+                if (listModel != null && selectedIndex >= 0) {
+                    listModel.remove(selectedIndex);
+                }
+            }
+        } catch (SQLException | IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addClicked() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        if (selectedPlayer == null) {
+
+            String newFirstName = txtDetailsFirstName.getText();
+            String newLastName = txtDetailsLastName.getText();
+            String newTeam = txtDetailsTeam.getText();
+
+            if (newFirstName.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "First name can't be empty");
+                return;
+            } else if (newLastName.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Last name can't be empty");
+                return;
+            } else if (newTeam.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Team name can't be empty");
+                return;
+            }
+
+            try {
+                PlayersHelper.insertNewPlayer(DatabaseHelper.loginToDB(), newFirstName, newLastName, newTeam);
+                JOptionPane.showMessageDialog(this, "Player: " + newFirstName + " " + newLastName + " " + newTeam + " Added successfully!");
+            } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        } else {
+
+            Vector<String> buttonVec = new Vector<String>();
+
+            PlayersHelper.getCombineData(DatabaseHelper.loginToDB(), selectedPlayer);
+            PlayersHelper.getPassingData(DatabaseHelper.loginToDB(), selectedPlayer);
+            PlayersHelper.getReceivingData(DatabaseHelper.loginToDB(), selectedPlayer);
+            PlayersHelper.getRushingData(DatabaseHelper.loginToDB(), selectedPlayer);
+
+            if (selectedPlayer.getCombineData() == null){
+                buttonVec.add("Combine");
+            }
+
+            if (selectedPlayer.getPassingData() == null){
+                buttonVec.add("Passing");
+            }
+
+            if (selectedPlayer.getRushingData() == null){
+                buttonVec.add("Rushing");
+            }
+
+            if (selectedPlayer.getReceivingData() == null){
+                buttonVec.add("Receiving");
+            }
+
+            if (buttonVec.size() == 0){
+                JOptionPane.showMessageDialog(this, "There are no empty stat categories to add");
+            } else {
+
+                String[] buttons = buttonVec.toArray(new String[buttonVec.size()]);
+
+                int rc = JOptionPane.showOptionDialog(this, "Which stat would you like to add?", "Select What to Add",
+                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, null);
+
+                String choice = buttonVec.get(rc);
+
+                switch(choice){
+                    case "Combine":
+                        //combine code
+                        break;
+                    case "Passing":
+                        //passing code
+                        break;
+                    case "Rushing":
+                        //rushing code
+                        break;
+                    case "Receiving":
+                        //receiving code
+                        break;
+                }
+
+            }
+
+        }
+/*
+        try {
             int response = JOptionPane.showConfirmDialog(this, String.format(Locale.getDefault(), "Are you sure you want to delete %s %s?", selectedPlayer.getFirstName(), selectedPlayer.getLastName()), "Confirm", JOptionPane.YES_NO_OPTION);
             if (response == JOptionPane.YES_OPTION) {
                 PlayersHelper.deletePlayer(DatabaseHelper.loginToDB(), selectedPlayer.getPlayerId());
@@ -188,6 +301,7 @@ public class SearchPlayer extends JFrame {
         } catch (SQLException | IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
+        */
     }
 
     private void updateClicked() {
