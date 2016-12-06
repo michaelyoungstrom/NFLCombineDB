@@ -289,6 +289,8 @@ public class SearchPlayer extends JFrame {
                         break;
                     case "Passing":
                         //passing code
+                        passingInput passing = new passingInput(selectedPlayer);
+                        passing.setVisible(true);
                         break;
                     case "Rushing":
                         //rushing code
