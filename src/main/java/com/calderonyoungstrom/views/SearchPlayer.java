@@ -295,8 +295,7 @@ public class SearchPlayer extends JFrame {
                         rushing.setVisible(true);
                         break;
                     case "Receiving":
-                        //receiving code
-                        receivingInput receiving = new receivingInput(selectedPlayer);
+                        receivingInput receiving = new receivingInput(selectedPlayer, false);
                         receiving.setVisible(true);
                         break;
                 }
@@ -386,7 +385,8 @@ public class SearchPlayer extends JFrame {
                 rushing.setVisible(true);
                 break;
             case "Receiving":
-                //receiving code
+                receivingInput receiving = new receivingInput(selectedPlayer, true);
+                receiving.setVisible(true);
                 break;
         }
     }
