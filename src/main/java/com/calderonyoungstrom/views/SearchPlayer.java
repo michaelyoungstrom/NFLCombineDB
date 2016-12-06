@@ -299,6 +299,8 @@ public class SearchPlayer extends JFrame {
                         break;
                     case "Receiving":
                         //receiving code
+                        receivingInput receiving = new receivingInput(selectedPlayer);
+                        receiving.setVisible(true);
                         break;
                 }
 
