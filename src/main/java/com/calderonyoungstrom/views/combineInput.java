@@ -67,14 +67,52 @@ public class combineInput extends JFrame{
 
     public void okClicked(){
         try{
+
             float height = Float.parseFloat(txtHeight.getText());
             int weight = Integer.parseInt(txtWeight.getText());
-            float forty = Float.parseFloat(txtForty.getText());
-            float twenty = Float.parseFloat(txtTwenty.getText());
-            float threecone = Float.parseFloat(txtThreecone.getText());
-            float vertical = Float.parseFloat(txtVertical.getText());
-            int broad = Integer.parseInt(txtBroad.getText());
-            int bench = Integer.parseInt(txtBench.getText());
+
+            float forty;
+            if (!txtForty.getText().equals("")) {
+                forty = Float.parseFloat(txtForty.getText());
+            } else {
+                forty = 0;
+            }
+
+            float twenty;
+            if (!txtTwenty.getText().equals("")){
+                twenty = Float.parseFloat(txtTwenty.getText());
+            } else {
+                twenty = 0;
+            }
+
+            float threecone;
+            if (!txtThreecone.getText().equals("")){
+                threecone = Float.parseFloat(txtThreecone.getText());
+            } else {
+                threecone = 0;
+            }
+
+            float vertical;
+            if (!txtVertical.getText().equals("")){
+                vertical = Float.parseFloat(txtVertical.getText());
+            } else {
+                vertical = 0;
+            }
+
+            int broad;
+            if (!txtBroad.getText().equals("")){
+                broad = Integer.parseInt(txtBroad.getText());
+            } else {
+                broad = 0;
+            }
+
+            int bench;
+            if (!txtBench.getText().equals("")){
+                bench = Integer.parseInt(txtBench.getText());
+            } else {
+                bench = 0;
+            }
+
             String college = txtCollege.getText();
             int combineYear = Integer.parseInt(txtYear.getText());
 
