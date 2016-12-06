@@ -46,6 +46,8 @@ public class PlayerStats extends JFrame {
     private JLabel txtPassingInterceptions;
     private JLabel txtPassingRating;
     private JButton btnBack;
+    private JLabel threecone;
+    private JLabel txtCombinedThreecone;
 
     private Player currentPlayer;
 
@@ -112,6 +114,7 @@ public class PlayerStats extends JFrame {
         setValue(txtCombinedPlayerCollege, combinedData.getCollege(), false);
         setValue(txtCombinedPlayerForty, combinedData.getForty(), true);
         setValue(txtCombinedPlayerTwenty, combinedData.getTwenty(), true);
+        setValue(txtCombinedThreecone, combinedData.getThreecone(), true);
         setValue(txtCombinedPlayerVertical, combinedData.getVertical(), true);
         setValue(txtCombinedPlayerBroad, combinedData.getBroad(), true);
         setValue(txtCombinedPlayerBench, combinedData.getBench(), true);
