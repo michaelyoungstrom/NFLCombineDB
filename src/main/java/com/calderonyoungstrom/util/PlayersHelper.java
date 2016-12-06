@@ -145,6 +145,74 @@ public class PlayersHelper {
         cs.executeQuery();
     }
 
+    public static void insertNewCombine(Connection connection, Player player, float height, int weight, float forty,
+                                        float twenty, float threecone, float vertical, int broad, int bench,
+                                        String college, int combineYear) throws SQLException{
+        createProcedureInsertNewCombine(connection);
+
+        CallableStatement cs = connection.prepareCall("{call INSERTNEWCOMBINE(?,?,?,?,?,?,?,?,?,?,?,?)}");
+        cs.setString(1, player.getPlayerId() + "Combine");
+        cs.setString(2, player.getPlayerId());
+        cs.setFloat(3, height);
+        cs.setInt(4, weight);
+        cs.setFloat(5, forty);
+        cs.setFloat(6, twenty);
+        cs.setFloat(7, threecone);
+        cs.setFloat(8, vertical);
+        cs.setInt(9, broad);
+        cs.setInt(10, bench);
+        cs.setString(11, college);
+        cs.setInt(12, combineYear);
+        cs.executeQuery();
+    }
+
+    public static void insertNewPassing(Connection connection, Player player, float compPerc, int yards,
+                                        int touchdowns, int interceptions, float rating) throws SQLException{
+        createProcedureInsertNewPassing(connection);
+
+        CallableStatement cs = connection.prepareCall("{call INSERTNEWPASSING(?,?,?,?,?,?,?)}");
+        cs.setString(1, player.getPlayerId() + "Passing");
+        cs.setString(2, player.getPlayerId());
+        cs.setFloat(3, compPerc);
+        cs.setInt(4, yards);
+        cs.setInt(5, touchdowns);
+        cs.setInt(6, interceptions);
+        cs.setFloat(7, rating);
+        cs.executeQuery();
+    }
+
+    public static void insertNewRushing(Connection connection, Player player, int yards, int touchdowns, int longest,
+                                        float yardsPerAttempt, float yardsPerGame) throws SQLException{
+        createProcedureInsertNewRushing(connection);
+
+        CallableStatement cs = connection.prepareCall("{call INSERTNEWRUSHING (?,?,?,?,?,?,?)}");
+        cs.setString(1, player.getPlayerId() + "Rushing");
+        cs.setString(2, player.getPlayerId());
+        cs.setInt(3, yards);
+        cs.setInt(4, touchdowns);
+        cs.setInt(5, longest);
+        cs.setFloat(6, yardsPerAttempt);
+        cs.setFloat(7, yardsPerGame);
+        cs.executeQuery();
+    }
+
+    public static void insertNewReceiving(Connection connection, Player player, int receptions, float catchPerc,
+                                          int yards, float yardsPerRec, int touchdowns, float yardsPerGame)
+                                          throws SQLException{
+        createProcedureInsertNewReceiving(connection);
+
+        CallableStatement cs = connection.prepareCall("{call INSERTNEWRECEIVING (?,?,?,?,?,?,?,?)}");
+        cs.setString(1, player.getPlayerId() + "Receiving");
+        cs.setString(2, player.getPlayerId());
+        cs.setInt(3, receptions);
+        cs.setFloat(4, catchPerc);
+        cs.setInt(5, yards);
+        cs.setFloat(6, yardsPerRec);
+        cs.setInt(7, touchdowns);
+        cs.setFloat(8, yardsPerGame);
+        cs.executeQuery();
+    }
+
     public static void deletePlayer(Connection connection, String playerId)
             throws SQLException, IOException {
 
@@ -163,7 +231,7 @@ public class PlayersHelper {
         cs.setString(2, newFname);
         cs.setString(3, newLname);
         cs.setString(4, newTeamName);
-        ResultSet rs2 = cs.executeQuery();
+        cs.executeQuery();
     }
 
     public static void updateCombine(Connection connection, Player player, float height, int weight, float forty,
@@ -183,7 +251,7 @@ public class PlayersHelper {
         cs.setInt(9, bench);
         cs.setString(10, college);
         cs.setInt(11, combineYear);
-        ResultSet rs2 = cs.executeQuery();
+        cs.executeQuery();
     }
 
     public static void updatePassing(Connection connection, Player player, float compPerc, int yards,
@@ -496,6 +564,124 @@ public class PlayersHelper {
                         "lname = lnameIn, " +
                         "team = teamIn " +
                         "WHERE playerId = playerIdIn; " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
+    }
+
+    public static void createProcedureInsertNewCombine(Connection connection) throws SQLException{
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS INSERTNEWCOMBINE";
+
+        String createProcedure =
+                "CREATE PROCEDURE insertNewCombine(" +
+                        "IN combineIdIn VARCHAR(17), " +
+                        "IN playerIdIn VARCHAR(10), " +
+                        "IN heightIn DECIMAL(3,1), " +
+                        "IN weightIn INT, " +
+                        "IN fortyIn DECIMAL(3,2), " +
+                        "IN twentyIn DECIMAL(3,2), " +
+                        "IN threeconeIn DECIMAL(3,2), " +
+                        "IN verticalIn DECIMAL(3,1), " +
+                        "IN broadIn INT, " +
+                        "IN benchIn INT, " +
+                        "IN collegeIn VARCHAR(30), " +
+                        "IN combineYearIn INT) " +
+                        "BEGIN " +
+                        "INSERT INTO combineData (combineId, playerId, height, weight, forty, " +
+                        "twenty, threecone, vertical, broad, bench, college, combineYear) " +
+                        "VALUES (combineIdIn, playerIdIn, heightIn, weightIn, fortyIn, " +
+                        "twentyIn, threeconeIn, verticalIn, broadIn, benchIn, collegeIn, combineYearIn); " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
+    }
+
+    public static void createProcedureInsertNewPassing(Connection connection) throws SQLException{
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS INSERTNEWPASSING";
+
+        String createProcedure =
+                "CREATE PROCEDURE insertNewPassing(" +
+                        "IN passingIdIn VARCHAR(17), " +
+                        "IN playerIdIn VARCHAR(10), " +
+                        "IN compPercIn FLOAT, " +
+                        "IN yardsIn INT, " +
+                        "IN touchdownsIn INT, " +
+                        "IN interceptionsIn INT, " +
+                        "IN ratingIn float) " +
+                        "BEGIN " +
+                        "INSERT INTO passingInfo (passingId, playerId, compPerc, yards, touchdowns, interceptions, " +
+                        "rating) " +
+                        "VALUES (passingIdIn, playerIdIn, compPercIn, yardsIn, touchdownsIn, interceptionsIn, " +
+                        "ratingIn); " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
+    }
+
+    public static void createProcedureInsertNewRushing(Connection connection) throws SQLException{
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS INSERTNEWRUSHING";
+
+        String createProcedure =
+                "CREATE PROCEDURE insertNewRushing(" +
+                        "IN rushingIdIn VARCHAR(17), " +
+                        "IN playerIdIn VARCHAR(10), " +
+                        "IN yardsIn INT, " +
+                        "IN touchdownsIn INT, " +
+                        "IN longestIn INT, " +
+                        "IN yardsPerAttemptIn FLOAT, " +
+                        "IN yardsPerGameIn FLOAT) " +
+                        "BEGIN " +
+                        "INSERT INTO rushingInfo (rushingId, playerId, yards, touchdowns, longest, yardsPerAttempt, " +
+                        "yardsPerGame) " +
+                        "VALUES (rushingIdIn, playerIdIn, yardsIn, touchdownsIn, longestIn, yardsPerAttemptIn, " +
+                        "yardsPerGameIn); " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
+    }
+
+    public static void createProcedureInsertNewReceiving(Connection connection) throws SQLException{
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS INSERTNEWRECEIVING";
+
+        String createProcedure =
+                "CREATE PROCEDURE insertNewReceiving(" +
+                        "IN receivingIdIn VARCHAR(19), " +
+                        "IN playerIdIn VARCHAR(10), " +
+                        "IN receptionsIn INT, " +
+                        "IN catchPercIn FLOAT, " +
+                        "IN yardsIn INT, " +
+                        "IN yardsPerRecIn FLOAT, " +
+                        "IN touchdownsIn INT, " +
+                        "IN yardsPerGameIn FLOAT) " +
+                        "BEGIN " +
+                        "INSERT INTO receivingInfo (receivingId, playerId, receptions, catchPerc, yards, " +
+                        "yardsPerRec, touchdowns, yardsPerGame) " +
+                        "VALUES (receivingIdIn, playerIdIn, receptionsIn, catchPercIn, yardsIn, yardsPerRecIn, " +
+                        "touchdownsIn, yardsPerGameIn); " +
                         "END";
 
         Statement stmtDrop = connection.createStatement();
