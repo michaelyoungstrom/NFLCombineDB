@@ -116,7 +116,17 @@ public class SearchPlayer extends JFrame {
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateClicked();
+                try {
+                    updateClicked();
+                } catch (ClassNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                } catch (InstantiationException e1) {
+                    e1.printStackTrace();
+                } catch (IllegalAccessException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -289,54 +299,87 @@ public class SearchPlayer extends JFrame {
             }
 
         }
-/*
-        try {
-            int response = JOptionPane.showConfirmDialog(this, String.format(Locale.getDefault(), "Are you sure you want to delete %s %s?", selectedPlayer.getFirstName(), selectedPlayer.getLastName()), "Confirm", JOptionPane.YES_NO_OPTION);
-            if (response == JOptionPane.YES_OPTION) {
-                PlayersHelper.deletePlayer(DatabaseHelper.loginToDB(), selectedPlayer.getPlayerId());
-                if (listModel != null && selectedIndex >= 0) {
-                    listModel.remove(selectedIndex);
-                }
-            }
-        } catch (SQLException | IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
-        }
-        */
     }
 
-    private void updateClicked() {
+    private void updateClicked() throws ClassNotFoundException, SQLException,
+            InstantiationException, IllegalAccessException {
         if (selectedIndex < 0) {
             return;
         }
 
         Player playerToUpdate = listModel.getElementAt(selectedIndex);
 
-        boolean teamRequired = true;
+        Vector<String> buttonVec = new Vector<String>();
 
-        String newFirstName = txtDetailsFirstName.getText();
-        String newLastName = txtDetailsLastName.getText();
-        String newTeam = txtDetailsTeam.getText();
+        PlayersHelper.getCombineData(DatabaseHelper.loginToDB(), selectedPlayer);
+        PlayersHelper.getPassingData(DatabaseHelper.loginToDB(), selectedPlayer);
+        PlayersHelper.getReceivingData(DatabaseHelper.loginToDB(), selectedPlayer);
+        PlayersHelper.getRushingData(DatabaseHelper.loginToDB(), selectedPlayer);
 
-        if (newFirstName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "First name can't be empty");
-            return;
-        } else if (newLastName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Last name can't be empty");
-            return;
-        } else if (newTeam.isEmpty() && teamRequired) {
-            JOptionPane.showMessageDialog(this, "Team name can't be empty");
-            return;
+        buttonVec.add("Player");
+
+        if (selectedPlayer.getCombineData() != null){
+            buttonVec.add("Combine");
         }
 
-        playerToUpdate.setFirstName(newFirstName);
-        playerToUpdate.setLastName(newLastName);
-        playerToUpdate.setTeam(newTeam);
-
-        try {
-            PlayersHelper.updatePlayer(DatabaseHelper.loginToDB(), playerToUpdate, newFirstName, newLastName, newTeam);
-        } catch (SQLException | IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+        if (selectedPlayer.getPassingData() != null){
+            buttonVec.add("Passing");
         }
 
+        if (selectedPlayer.getRushingData() != null){
+            buttonVec.add("Rushing");
+        }
+
+        if (selectedPlayer.getReceivingData() != null){
+            buttonVec.add("Receiving");
+        }
+
+        String[] buttons = buttonVec.toArray(new String[buttonVec.size()]);
+
+        int rc = JOptionPane.showOptionDialog(this, "Which stat would you like to update?", "Select What to Update",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, null);
+
+        String choice = buttonVec.get(rc);
+
+        switch(choice){
+            case "Player":
+                String newFirstName = txtDetailsFirstName.getText();
+                String newLastName = txtDetailsLastName.getText();
+                String newTeam = txtDetailsTeam.getText();
+
+                if (newFirstName.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "First name can't be empty");
+                    return;
+                } else if (newLastName.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Last name can't be empty");
+                    return;
+                } else if (newTeam.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Team name can't be empty");
+                    return;
+                }
+
+                playerToUpdate.setFirstName(newFirstName);
+                playerToUpdate.setLastName(newLastName);
+                playerToUpdate.setTeam(newTeam);
+
+                try {
+                    PlayersHelper.updatePlayer(DatabaseHelper.loginToDB(), playerToUpdate, newFirstName, newLastName, newTeam);
+                } catch (SQLException | IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Combine":
+                //combine code
+                break;
+            case "Passing":
+                //passing code
+                break;
+            case "Rushing":
+                //rushing code
+                break;
+            case "Receiving":
+                //receiving code
+                break;
+        }
     }
 }
