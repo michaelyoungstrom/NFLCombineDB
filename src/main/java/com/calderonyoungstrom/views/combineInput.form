@@ -13,7 +13,7 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="height (inches):"/>
+          <text value="Height (Inches):"/>
         </properties>
       </component>
       <component id="9a8d1" class="javax.swing.JLabel">
@@ -21,7 +21,7 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="weight (pounds):"/>
+          <text value="Weight (Pounds):"/>
         </properties>
       </component>
       <component id="8c7dc" class="javax.swing.JLabel">
@@ -29,7 +29,7 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="forty (seconds):"/>
+          <text value="Forty (Seconds):"/>
         </properties>
       </component>
       <component id="66aca" class="javax.swing.JLabel">
@@ -37,7 +37,7 @@
           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="vertical (inches):"/>
+          <text value="Vertical (Inches):"/>
         </properties>
       </component>
       <component id="677ff" class="javax.swing.JLabel">
@@ -45,7 +45,7 @@
           <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="college:"/>
+          <text value="College:"/>
         </properties>
       </component>
       <component id="fe417" class="javax.swing.JLabel">
@@ -53,7 +53,7 @@
           <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="bench (reps): "/>
+          <text value="Bench (Reps): "/>
         </properties>
       </component>
       <component id="fc8b2" class="javax.swing.JLabel">
@@ -61,7 +61,7 @@
           <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="broad (inches):"/>
+          <text value="Broad (Inches):"/>
         </properties>
       </component>
       <component id="fb93" class="javax.swing.JLabel">
@@ -69,7 +69,7 @@
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="threecone (seconds):"/>
+          <text value="Threecone (Seconds):"/>
         </properties>
       </component>
       <component id="1d344" class="javax.swing.JButton" binding="btnBack">
@@ -85,7 +85,7 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="twenty (seconds):"/>
+          <text value="Twenty (Seconds):"/>
         </properties>
       </component>
       <component id="d872b" class="javax.swing.JTextField" binding="txtHeight">
@@ -173,7 +173,7 @@
           <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="year:"/>
+          <text value="Year:"/>
         </properties>
       </component>
       <component id="19ee8" class="javax.swing.JTextField" binding="txtYear">

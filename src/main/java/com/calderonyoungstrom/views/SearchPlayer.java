@@ -294,6 +294,8 @@ public class SearchPlayer extends JFrame {
                         break;
                     case "Rushing":
                         //rushing code
+                        rushingInput rushing = new rushingInput(selectedPlayer);
+                        rushing.setVisible(true);
                         break;
                     case "Receiving":
                         //receiving code
