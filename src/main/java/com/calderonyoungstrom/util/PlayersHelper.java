@@ -200,6 +200,35 @@ public class PlayersHelper {
         ResultSet rs2 = cs.executeQuery();
     }
 
+    public static void updateRushing(Connection connection, Player player, int yards, int touchdowns, int longest,
+                                     float yardsPerAttempt, float yardsPerGame) throws SQLException{
+        createProcedureUpdateRushing(connection);
+
+        CallableStatement cs = connection.prepareCall("{call UPDATERUSHING (?,?,?,?,?,?)}");
+        cs.setString(1, player.getPlayerId());
+        cs.setInt(2, yards);
+        cs.setInt(3, touchdowns);
+        cs.setInt(4, longest);
+        cs.setFloat(5, yardsPerAttempt);
+        cs.setFloat(6, yardsPerGame);
+        ResultSet rs2 = cs.executeQuery();
+    }
+
+    public static void updateReceiving(Connection connection, Player player, int receptions, float catchPerc,
+                                       int yards, float yardsPerRec, int touchdowns, float yardsPerGame) throws SQLException{
+        createProcedureUpdateReceiving(connection);
+
+        CallableStatement cs = connection.prepareCall("{call UPDATERECEIVING (?,?,?,?,?,?,?)}");
+        cs.setString(1, player.getPlayerId());
+        cs.setInt(2, receptions);
+        cs.setFloat(3, catchPerc);
+        cs.setInt(4, yards);
+        cs.setFloat(5, yardsPerRec);
+        cs.setInt(6, touchdowns);
+        cs.setFloat(7, yardsPerGame);
+        ResultSet rs2 = cs.executeQuery();
+    }
+
     public static void getCombineData(Connection connection, Player player) throws SQLException {
 
         //Create Procedure
@@ -378,6 +407,68 @@ public class PlayersHelper {
                         "touchdowns = touchdownsIn, " +
                         "interceptions = interceptionsIn, " +
                         "rating = ratingIn " +
+                        "WHERE playerId = playerIdIn; " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
+    }
+
+    public static void createProcedureUpdateRushing(Connection connection) throws SQLException{
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS UPDATERUSHING";
+
+        String createProcedure =
+                "CREATE PROCEDURE updateRushing(" +
+                        "IN playerIdIn VARCHAR(10), " +
+                        "IN yardsIn INT, " +
+                        "IN touchdownsIn INT, " +
+                        "IN longestIn INT, " +
+                        "IN yardsPerAttemptIn FLOAT, " +
+                        "IN yardsPerGameIn FLOAT) " +
+                        "BEGIN " +
+                        "UPDATE rushingInfo SET " +
+                        "yards = yardsIn, " +
+                        "touchdowns = touchdownsIn, " +
+                        "longest = longestIn, " +
+                        "yardsPerAttempt = yardsPerAttemptIn, " +
+                        "yardsPerGame = yardsPerGameIn " +
+                        "WHERE playerId = playerIdIn; " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
+    }
+
+    public static void createProcedureUpdateReceiving(Connection connection) throws SQLException{
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS UPDATERECEIVING";
+
+        String createProcedure =
+                "CREATE PROCEDURE updateReceiving(" +
+                        "IN playerIdIn VARCHAR(10), " +
+                        "IN receptionsIn INT, " +
+                        "IN catchPercIn FLOAT, " +
+                        "IN yardsIn INT, " +
+                        "IN yardsPerRecIn FLOAT, " +
+                        "IN touchdownsIn INT, " +
+                        "IN yardsPerGameIn FLOAT) " +
+                        "BEGIN " +
+                        "UPDATE receivingInfo SET " +
+                        "receptions = receptionsIn, " +
+                        "catchPerc = catchPercIn, " +
+                        "yards = yardsIn, " +
+                        "yardsPerRec = yardsPerRecIn, " +
+                        "touchdowns = touchdownsIn, " +
+                        "yardsPerGame = yardsPerGameIn " +
                         "WHERE playerId = playerIdIn; " +
                         "END";
 
