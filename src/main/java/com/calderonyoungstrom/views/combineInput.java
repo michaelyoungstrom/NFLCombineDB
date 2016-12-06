@@ -46,7 +46,6 @@ public class combineInput extends JFrame{
     private void initialize(){
         setContentPane(Panel1);
         pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         if (isUpdate){
             setValues();

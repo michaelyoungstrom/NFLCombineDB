@@ -65,7 +65,6 @@ public class PlayerStats extends JFrame {
     private void initialize(){
         setContentPane(rootPanel);
         pack();
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         btnBack.addActionListener(new ActionListener() {
             @Override

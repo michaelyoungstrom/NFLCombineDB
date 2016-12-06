@@ -43,7 +43,6 @@ public class passingInput extends JFrame{
     private void initialize(){
         setContentPane(Panel1);
         pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         btnOk.addActionListener(new ActionListener() {
             @Override
