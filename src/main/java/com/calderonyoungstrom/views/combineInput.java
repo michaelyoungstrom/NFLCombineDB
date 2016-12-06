@@ -146,6 +146,7 @@ public class combineInput extends JFrame{
 
     public void setValues(){
         CombineData combineData = currentPlayer.getCombineData();
+
         txtHeight.setText(Float.toString(combineData.getHeight()));
         txtWeight.setText(Integer.toString(combineData.getWeight()));
         txtForty.setText(Float.toString(combineData.getForty()));

@@ -289,7 +289,7 @@ public class SearchPlayer extends JFrame {
                         break;
                     case "Passing":
                         //passing code
-                        passingInput passing = new passingInput(selectedPlayer);
+                        passingInput passing = new passingInput(selectedPlayer, false);
                         passing.setVisible(true);
                         break;
                     case "Rushing":
@@ -381,7 +381,8 @@ public class SearchPlayer extends JFrame {
                 combine.setVisible(true);
                 break;
             case "Passing":
-                //passing code
+                passingInput passing = new passingInput(selectedPlayer, true);
+                passing.setVisible(true);
                 break;
             case "Rushing":
                 //rushing code

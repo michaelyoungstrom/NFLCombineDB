@@ -1,5 +1,6 @@
 package com.calderonyoungstrom.views;
 
+import com.calderonyoungstrom.model.PassingData;
 import com.calderonyoungstrom.model.Player;
 import com.calderonyoungstrom.util.DatabaseHelper;
 import com.calderonyoungstrom.util.PlayersHelper;
@@ -22,10 +23,17 @@ public class passingInput extends JFrame{
     private JPanel Panel1;
 
     private Player currentPlayer;
+    private boolean isUpdate;
 
-    public passingInput(Player player) {
+    public passingInput(Player player, boolean isUpdate) {
         super("Passing Input");
         this.currentPlayer = player;
+        this.isUpdate = isUpdate;
+
+        if (isUpdate){
+            setValues();
+        }
+
         initialize();
     }
 
@@ -62,15 +70,35 @@ public class passingInput extends JFrame{
             int interceptions = Integer.parseInt(txtInterceptions.getText());
             float rating = Float.parseFloat(txtRating.getText());
 
-            PlayersHelper.insertNewPassing
-                    (DatabaseHelper.loginToDB(), currentPlayer, compPerc, yards, touchdowns, interceptions, rating);
+            if (isUpdate){
+                PlayersHelper.updatePassing(DatabaseHelper.loginToDB(), currentPlayer,
+                        compPerc, yards, touchdowns, interceptions, rating);
+            } else {
+                PlayersHelper.insertNewPassing
+                        (DatabaseHelper.loginToDB(), currentPlayer, compPerc, yards, touchdowns, interceptions, rating);
+            }
 
-            JOptionPane.showMessageDialog(this, "Passing Data Successfully added!");
+            if (isUpdate) {
+                JOptionPane.showMessageDialog(this, "Passing Data successfully updated!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Passing Data successfully added!");
+            }
+
             Panel1.setVisible(false);
             dispose();
         } catch(Exception ex){
             JOptionPane.showMessageDialog(this, "Invalid input");
         }
+    }
+
+    public void setValues(){
+        PassingData passingData = currentPlayer.getPassingData();
+
+        txtCompPerc.setText(Float.toString(passingData.getCompPerc()));
+        txtYards.setText(Integer.toString(passingData.getYard()));
+        txtTouchdowns.setText(Integer.toString(passingData.getTouchdowns()));
+        txtInterceptions.setText(Integer.toString(passingData.getInterceptions()));
+        txtRating.setText(Float.toString(passingData.getRating()));
     }
 
 }
