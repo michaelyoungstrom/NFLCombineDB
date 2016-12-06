@@ -31,10 +31,12 @@ public class combineInput extends JFrame{
     private JPanel Panel1;
 
     private Player currentPlayer;
+    private boolean isUpdate;
 
-    public combineInput(Player player) {
+    public combineInput(Player player, boolean isUpdate) {
         super("Combine Input");
         this.currentPlayer = player;
+        this.isUpdate = isUpdate;
         initialize();
     }
 
@@ -45,6 +47,10 @@ public class combineInput extends JFrame{
         setContentPane(Panel1);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        if (isUpdate){
+            setValues();
+        }
 
         btnOk.addActionListener(new ActionListener() {
             @Override
@@ -116,15 +122,39 @@ public class combineInput extends JFrame{
             String college = txtCollege.getText();
             int combineYear = Integer.parseInt(txtYear.getText());
 
-            PlayersHelper.insertNewCombine
-                    (DatabaseHelper.loginToDB(), currentPlayer, height, weight,
-                            forty, twenty, threecone, vertical, broad, bench, college, combineYear);
+            if (isUpdate) {
+                PlayersHelper.updateCombine(DatabaseHelper.loginToDB(), currentPlayer, height, weight,
+                        forty, twenty, threecone, vertical, broad, bench, college, combineYear);
+            } else {
+                PlayersHelper.insertNewCombine
+                        (DatabaseHelper.loginToDB(), currentPlayer, height, weight,
+                                forty, twenty, threecone, vertical, broad, bench, college, combineYear);
+            }
 
-            JOptionPane.showMessageDialog(this, "Combine Data Successfully added!");
+            if (isUpdate){
+                JOptionPane.showMessageDialog(this, "Combine Data successfully updated!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Combine Data successfully added!");
+            }
+
             Panel1.setVisible(false);
             dispose();
         } catch(Exception ex){
             JOptionPane.showMessageDialog(this, "Invalid input");
         }
+    }
+
+    public void setValues(){
+        CombineData combineData = currentPlayer.getCombineData();
+        txtHeight.setText(Float.toString(combineData.getHeight()));
+        txtWeight.setText(Integer.toString(combineData.getWeight()));
+        txtForty.setText(Float.toString(combineData.getForty()));
+        txtTwenty.setText(Float.toString(combineData.getTwenty()));
+        txtThreecone.setText(Float.toString(combineData.getThreecone()));
+        txtVertical.setText(Float.toString(combineData.getVertical()));
+        txtBroad.setText(Integer.toString(combineData.getBroad()));
+        txtBench.setText(Integer.toString(combineData.getBench()));
+        txtCollege.setText(combineData.getCollege());
+        txtYear.setText(Integer.toString(combineData.getCombineYear()));
     }
 }

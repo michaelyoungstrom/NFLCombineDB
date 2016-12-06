@@ -284,7 +284,7 @@ public class SearchPlayer extends JFrame {
                 switch(choice){
                     case "Combine":
                         //combine code
-                        combineInput combine = new combineInput(selectedPlayer);
+                        combineInput combine = new combineInput(selectedPlayer, false);
                         combine.setVisible(true);
                         break;
                     case "Passing":
@@ -377,7 +377,8 @@ public class SearchPlayer extends JFrame {
                 }
                 break;
             case "Combine":
-                //combine code
+                combineInput combine = new combineInput(selectedPlayer, true);
+                combine.setVisible(true);
                 break;
             case "Passing":
                 //passing code
