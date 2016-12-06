@@ -85,17 +85,65 @@ public class PlayersHelper {
         return players;
     }
 
-    public static void insertNewPlayer(Connection connection, String playerId, String fname, String lname, String team)
+
+    public static String generatePlayerId(Connection connection, String fname, String lname) throws SQLException{
+
+        createProcedureFindPlayerById(connection);
+
+        int lnameLength = lname.length();
+        int fnameLength = fname.length();
+        String playerId = "";
+
+        if (lnameLength >= 4){
+            playerId = playerId + lname.substring(0,4);
+        } else {
+            playerId = playerId + lname;
+        }
+
+        if (fnameLength >= 2){
+            playerId = playerId + fname.substring(0,2);
+        } else {
+            playerId = playerId + fname;
+        }
+
+        int num = 0;
+        boolean generated = false;
+
+        while (!generated){
+
+            CallableStatement cs = connection.prepareCall("{call FINDPLAYERBYID(?)}");
+            cs.setString(1, playerId + Integer.toString(num));
+            ResultSet rs = cs.executeQuery();
+
+            ArrayList<String> players = new ArrayList<String>();
+            while (rs.next()) {
+                String character = rs.getString("playerId");
+                players.add(character);
+            }
+
+            if (players.size() == 0){
+                generated = true;
+                playerId = playerId + Integer.toString(num);
+            } else {
+                num++;
+            }
+        }
+
+        return playerId;
+
+    }
+
+    public static void insertNewPlayer(Connection connection, String fname, String lname, String team)
             throws SQLException {
         createProcedureInsertNewPlayer(connection);
-        Player newPlayer = new Player(playerId, fname, lname, team);
+        String playerId = generatePlayerId(connection, fname, lname);
 
         CallableStatement cs = connection.prepareCall("{call INSERTNEWPLAYER(?,?,?,?)}");
         cs.setString(1, playerId);
         cs.setString(2, fname);
         cs.setString(3, lname);
         cs.setString(4, team);
-        ResultSet rs2 = cs.executeQuery();
+        cs.executeQuery();
     }
 
     public static void deletePlayer(Connection connection, String playerId)
@@ -383,6 +431,26 @@ public class PlayersHelper {
                         "BEGIN " +
                         "SELECT * FROM receivingInfo r " +
                         "WHERE r.playerId = playerIdIn; " +
+                        "END";
+
+        Statement stmtDrop = connection.createStatement();
+        stmtDrop.execute(drop);
+
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(createProcedure);
+    }
+
+    public static void createProcedureFindPlayerById(Connection connection) throws SQLException {
+
+        String drop =
+                "DROP PROCEDURE IF EXISTS FINDPLAYERBYID";
+
+        String createProcedure =
+                "CREATE PROCEDURE findPlayerById(" +
+                        "IN playerIdIn VARCHAR(10)) " +
+                        "BEGIN " +
+                        "SELECT * FROM players p " +
+                        "WHERE p.playerId = playerIdIn; " +
                         "END";
 
         Statement stmtDrop = connection.createStatement();
