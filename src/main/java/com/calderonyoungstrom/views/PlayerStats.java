@@ -7,6 +7,8 @@ import com.calderonyoungstrom.model.ReceivingData;
 import com.calderonyoungstrom.model.RushingData;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created on 12/4/16.
@@ -43,6 +45,7 @@ public class PlayerStats extends JFrame {
     private JLabel txtPassingTouchdown;
     private JLabel txtPassingInterceptions;
     private JLabel txtPassingRating;
+    private JButton btnBack;
 
     private Player currentPlayer;
 
@@ -62,6 +65,13 @@ public class PlayerStats extends JFrame {
         pack();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rootPanel.setVisible(false);
+                dispose();
+            }
+        });
 
         if (currentPlayer.getCombineData() == null) {
             panelCombinedData.setVisible(false);
