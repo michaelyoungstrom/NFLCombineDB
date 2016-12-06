@@ -158,14 +158,12 @@ public class PlayersHelper {
                                     String newLname, String newTeamName) throws SQLException, IOException {
         createProcedureUpdatePlayer(connection);
 
-        updatePassing(connection, player, (float) 64.4, 4770, 36, 7, (float) 102.2);
-
         CallableStatement cs = connection.prepareCall("{call UPDATEPLAYER (?,?,?,?)}");
         cs.setString(1, player.getPlayerId());
         cs.setString(2, newFname);
         cs.setString(3, newLname);
         cs.setString(4, newTeamName);
-        //ResultSet rs2 = cs.executeQuery();
+        ResultSet rs2 = cs.executeQuery();
     }
 
     public static void updateCombine(Connection connection, Player player, float height, int weight, float forty,
