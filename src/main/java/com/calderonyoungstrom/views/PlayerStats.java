@@ -6,9 +6,10 @@ import com.calderonyoungstrom.model.Player;
 import com.calderonyoungstrom.model.ReceivingData;
 import com.calderonyoungstrom.model.RushingData;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 /**
  * Created on 12/4/16.
@@ -62,7 +63,7 @@ public class PlayerStats extends JFrame {
         initialize();
     }
 
-    private void initialize(){
+    private void initialize() {
         setContentPane(rootPanel);
         pack();
 
@@ -156,6 +157,7 @@ public class PlayerStats extends JFrame {
             setValue(lbl, value + "", naIfEmpty);
         }
     }
+
     private void setValue(JLabel lbl, float value, boolean naIfEmpty) {
         if (naIfEmpty && value <= 0) {
             setValue(lbl, "", true);
@@ -163,4 +165,5 @@ public class PlayerStats extends JFrame {
             setValue(lbl, value + "", naIfEmpty);
         }
     }
+
 }

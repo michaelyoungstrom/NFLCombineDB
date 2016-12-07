@@ -1,18 +1,19 @@
 package com.calderonyoungstrom.views;
 
-import com.calderonyoungstrom.model.RushingData;
 import com.calderonyoungstrom.model.Player;
+import com.calderonyoungstrom.model.RushingData;
 import com.calderonyoungstrom.util.DatabaseHelper;
 import com.calderonyoungstrom.util.PlayersHelper;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 /**
  * Created by mayoungstrom on 12/6/16.
  */
-public class rushingInput extends JFrame{
+public class rushingInput extends JFrame {
     private JPanel Panel1;
     private JButton btnBack;
     private JTextField txtYards;
@@ -30,7 +31,7 @@ public class rushingInput extends JFrame{
         this.currentPlayer = player;
         this.isUpdate = isUpdate;
 
-        if (isUpdate){
+        if (isUpdate) {
             setValues();
         }
 
@@ -40,7 +41,7 @@ public class rushingInput extends JFrame{
     /**
      * Initializes the LoginForm
      */
-    private void initialize(){
+    private void initialize() {
         setContentPane(Panel1);
         pack();
 
@@ -60,8 +61,8 @@ public class rushingInput extends JFrame{
         });
     }
 
-    public void okClicked(){
-        try{
+    public void okClicked() {
+        try {
 
             int yards = Integer.parseInt(txtYards.getText());
             int touchdowns = Integer.parseInt(txtTouchdowns.getText());
@@ -69,7 +70,7 @@ public class rushingInput extends JFrame{
             float yardsPerAttempt = Float.parseFloat(txtYardsPerAtt.getText());
             float yardsPerGame = Float.parseFloat(txtYardsPerGame.getText());
 
-            if (isUpdate){
+            if (isUpdate) {
                 PlayersHelper.updateRushing(DatabaseHelper.loginToDB(), currentPlayer,
                         yards, touchdowns, longest, yardsPerAttempt, yardsPerGame);
             } else {
@@ -78,19 +79,19 @@ public class rushingInput extends JFrame{
                                 yardsPerGame);
             }
 
-            if (isUpdate){
+            if (isUpdate) {
                 JOptionPane.showMessageDialog(this, "Rushing Data successfully updated!");
             } else {
                 JOptionPane.showMessageDialog(this, "Rushing Data successfully added!");
             }
             Panel1.setVisible(false);
             dispose();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Invalid input");
         }
     }
 
-    public void setValues(){
+    public void setValues() {
         RushingData rushingData = currentPlayer.getRushingData();
 
         txtYards.setText(Integer.toString(rushingData.getYards()));
@@ -99,4 +100,5 @@ public class rushingInput extends JFrame{
         txtYardsPerAtt.setText(Float.toString(rushingData.getYardsPerAttempt()));
         txtYardsPerGame.setText(Float.toString(rushingData.getYardsPerGame()));
     }
+
 }

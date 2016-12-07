@@ -22,7 +22,7 @@ public class PlayerForm extends JPanel {
 
     private Player player;
 
-    public PlayerForm(){
+    public PlayerForm() {
         super();
         initialize();
     }
@@ -60,22 +60,15 @@ public class PlayerForm extends JPanel {
         }
     }
 
-    public void setPlayer(Player player){
-        txtFirstName.setText(player.getFirstName());
-        txtFirstName.repaint();
-        txtLastName.setText(player.getLastName());
-        txtTeam.setText(player.getTeam());
-    }
-
     public void setOnButtonClickedListener(OnButtonClickedListener clickedListener) {
         this.onButtonClickedListener = clickedListener;
     }
 
-    public void removePlayer(){
+    public void removePlayer() {
 
     }
 
-    public Player getPlayer(){
+    public Player getPlayer() {
         String firstName = txtFirstName.getText();
         String lastName = txtLastName.getText();
         String team = txtTeam.getText();
@@ -87,11 +80,18 @@ public class PlayerForm extends JPanel {
         return new Player(id, firstName, lastName, team);
     }
 
+    public void setPlayer(Player player) {
+        txtFirstName.setText(player.getFirstName());
+        txtFirstName.repaint();
+        txtLastName.setText(player.getLastName());
+        txtTeam.setText(player.getTeam());
+    }
+
     public JPanel getRootPanel() {
         return rootPanel;
     }
 
-    public interface OnButtonClickedListener{
+    public interface OnButtonClickedListener {
         void onButtonClickedListener(Player player, JPanel parent);
     }
 }

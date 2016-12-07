@@ -1,10 +1,9 @@
 package com.calderonyoungstrom.views;
 
-import com.calderonyoungstrom.model.*;
+import com.calderonyoungstrom.model.Player;
 import com.calderonyoungstrom.util.DatabaseHelper;
 import com.calderonyoungstrom.util.PlayersHelper;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -35,9 +34,6 @@ public class SearchPlayer extends JFrame {
     private JButton btnDelete;
     private JButton btnUpdate;
     private JButton btnStats;
-    private JTextField txtDetailsFirstName;
-    private JTextField txtDetailsLastName;
-    private JTextField txtDetailsTeam;
     private JButton btnAdd;
     private boolean loading = false;
     private ArrayList<Player> playersList;
@@ -186,7 +182,7 @@ public class SearchPlayer extends JFrame {
         listModel = new DefaultListModel<>();
 
         for (Player player : players) {
-           listModel.addElement(player);
+            listModel.addElement(player);
         }
 
         listResult.setModel(listModel);
@@ -204,7 +200,7 @@ public class SearchPlayer extends JFrame {
         btnUpdate.setEnabled(enabled);
     }
 
-    private void deleteClicked(){
+    private void deleteClicked() {
         if (selectedPlayer == null) {
             return;
         }
@@ -270,23 +266,23 @@ public class SearchPlayer extends JFrame {
             PlayersHelper.getReceivingData(DatabaseHelper.loginToDB(), selectedPlayer);
             PlayersHelper.getRushingData(DatabaseHelper.loginToDB(), selectedPlayer);
 
-            if (selectedPlayer.getCombineData() == null){
+            if (selectedPlayer.getCombineData() == null) {
                 buttonVec.add("Combine");
             }
 
-            if (selectedPlayer.getPassingData() == null){
+            if (selectedPlayer.getPassingData() == null) {
                 buttonVec.add("Passing");
             }
 
-            if (selectedPlayer.getRushingData() == null){
+            if (selectedPlayer.getRushingData() == null) {
                 buttonVec.add("Rushing");
             }
 
-            if (selectedPlayer.getReceivingData() == null){
+            if (selectedPlayer.getReceivingData() == null) {
                 buttonVec.add("Receiving");
             }
 
-            if (buttonVec.size() == 0){
+            if (buttonVec.size() == 0) {
                 JOptionPane.showMessageDialog(this, "There are no empty stat categories to add");
             } else {
 
@@ -297,7 +293,7 @@ public class SearchPlayer extends JFrame {
 
                 String choice = buttonVec.get(rc);
 
-                switch(choice){
+                switch (choice) {
                     case "Combine":
                         CombineInput combine = new CombineInput(selectedPlayer, false);
                         combine.setVisible(true);
@@ -338,19 +334,19 @@ public class SearchPlayer extends JFrame {
 
         buttonVec.add("Player");
 
-        if (selectedPlayer.getCombineData() != null){
+        if (selectedPlayer.getCombineData() != null) {
             buttonVec.add("Combine");
         }
 
-        if (selectedPlayer.getPassingData() != null){
+        if (selectedPlayer.getPassingData() != null) {
             buttonVec.add("Passing");
         }
 
-        if (selectedPlayer.getRushingData() != null){
+        if (selectedPlayer.getRushingData() != null) {
             buttonVec.add("Rushing");
         }
 
-        if (selectedPlayer.getReceivingData() != null){
+        if (selectedPlayer.getReceivingData() != null) {
             buttonVec.add("Receiving");
         }
 
@@ -359,9 +355,13 @@ public class SearchPlayer extends JFrame {
         int rc = JOptionPane.showOptionDialog(this, "Which stat would you like to update?", "Select What to Update",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, null);
 
+        if (rc < 0) {
+            return;
+        }
+
         String choice = buttonVec.get(rc);
 
-        switch(choice){
+        switch (choice) {
             case "Player":
 
                 selectedPlayer = playerForm.getPlayer();
@@ -408,4 +408,5 @@ public class SearchPlayer extends JFrame {
                 break;
         }
     }
+
 }

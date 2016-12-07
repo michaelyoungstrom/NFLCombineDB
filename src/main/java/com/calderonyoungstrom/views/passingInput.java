@@ -5,14 +5,15 @@ import com.calderonyoungstrom.model.Player;
 import com.calderonyoungstrom.util.DatabaseHelper;
 import com.calderonyoungstrom.util.PlayersHelper;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 /**
  * Created by mayoungstrom on 12/6/16.
  */
-public class passingInput extends JFrame{
+public class passingInput extends JFrame {
     private JButton btnBack;
     private JButton btnOk;
     private JTextField txtCompPerc;
@@ -30,7 +31,7 @@ public class passingInput extends JFrame{
         this.currentPlayer = player;
         this.isUpdate = isUpdate;
 
-        if (isUpdate){
+        if (isUpdate) {
             setValues();
         }
 
@@ -40,7 +41,7 @@ public class passingInput extends JFrame{
     /**
      * Initializes the LoginForm
      */
-    private void initialize(){
+    private void initialize() {
         setContentPane(Panel1);
         pack();
 
@@ -60,8 +61,8 @@ public class passingInput extends JFrame{
         });
     }
 
-    public void okClicked(){
-        try{
+    public void okClicked() {
+        try {
 
             float compPerc = Float.parseFloat(txtCompPerc.getText());
             int yards = Integer.parseInt(txtYards.getText());
@@ -69,7 +70,7 @@ public class passingInput extends JFrame{
             int interceptions = Integer.parseInt(txtInterceptions.getText());
             float rating = Float.parseFloat(txtRating.getText());
 
-            if (isUpdate){
+            if (isUpdate) {
                 PlayersHelper.updatePassing(DatabaseHelper.loginToDB(), currentPlayer,
                         compPerc, yards, touchdowns, interceptions, rating);
             } else {
@@ -85,12 +86,12 @@ public class passingInput extends JFrame{
 
             Panel1.setVisible(false);
             dispose();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Invalid input");
         }
     }
 
-    public void setValues(){
+    public void setValues() {
         PassingData passingData = currentPlayer.getPassingData();
 
         txtCompPerc.setText(Float.toString(passingData.getCompPerc()));

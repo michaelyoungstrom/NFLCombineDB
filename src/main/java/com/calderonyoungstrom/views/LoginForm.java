@@ -22,7 +22,7 @@ public class LoginForm extends JFrame {
     /**
      * Initializes the LoginForm
      */
-    private void initialize(){
+    private void initialize() {
         setContentPane(panel1);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,4 +36,5 @@ public class LoginForm extends JFrame {
             }
         });
     }
+
 }

@@ -1,21 +1,19 @@
 package com.calderonyoungstrom.views;
 
 import com.calderonyoungstrom.model.CombineData;
-import com.calderonyoungstrom.model.PassingData;
 import com.calderonyoungstrom.model.Player;
-import com.calderonyoungstrom.model.ReceivingData;
-import com.calderonyoungstrom.model.RushingData;
 import com.calderonyoungstrom.util.DatabaseHelper;
 import com.calderonyoungstrom.util.PlayersHelper;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 /**
  * Created by mayoungstrom on 12/6/16.
  */
-public class CombineInput extends JFrame{
+public class CombineInput extends JFrame {
     private JButton btnBack;
     private JTextField txtHeight;
     private JTextField txtWeight;
@@ -43,11 +41,11 @@ public class CombineInput extends JFrame{
     /**
      * Initializes the LoginForm
      */
-    private void initialize(){
+    private void initialize() {
         setContentPane(Panel1);
         pack();
 
-        if (isUpdate){
+        if (isUpdate) {
             setValues();
         }
 
@@ -70,8 +68,8 @@ public class CombineInput extends JFrame{
 
     }
 
-    public void okClicked(){
-        try{
+    public void okClicked() {
+        try {
 
             float height = Float.parseFloat(txtHeight.getText());
             int weight = Integer.parseInt(txtWeight.getText());
@@ -84,35 +82,35 @@ public class CombineInput extends JFrame{
             }
 
             float twenty;
-            if (!txtTwenty.getText().equals("")){
+            if (!txtTwenty.getText().equals("")) {
                 twenty = Float.parseFloat(txtTwenty.getText());
             } else {
                 twenty = 0;
             }
 
             float threecone;
-            if (!txtThreecone.getText().equals("")){
+            if (!txtThreecone.getText().equals("")) {
                 threecone = Float.parseFloat(txtThreecone.getText());
             } else {
                 threecone = 0;
             }
 
             float vertical;
-            if (!txtVertical.getText().equals("")){
+            if (!txtVertical.getText().equals("")) {
                 vertical = Float.parseFloat(txtVertical.getText());
             } else {
                 vertical = 0;
             }
 
             int broad;
-            if (!txtBroad.getText().equals("")){
+            if (!txtBroad.getText().equals("")) {
                 broad = Integer.parseInt(txtBroad.getText());
             } else {
                 broad = 0;
             }
 
             int bench;
-            if (!txtBench.getText().equals("")){
+            if (!txtBench.getText().equals("")) {
                 bench = Integer.parseInt(txtBench.getText());
             } else {
                 bench = 0;
@@ -130,7 +128,7 @@ public class CombineInput extends JFrame{
                                 forty, twenty, threecone, vertical, broad, bench, college, combineYear);
             }
 
-            if (isUpdate){
+            if (isUpdate) {
                 JOptionPane.showMessageDialog(this, "Combine Data successfully updated!");
             } else {
                 JOptionPane.showMessageDialog(this, "Combine Data successfully added!");
@@ -138,12 +136,12 @@ public class CombineInput extends JFrame{
 
             Panel1.setVisible(false);
             dispose();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Invalid input");
         }
     }
 
-    public void setValues(){
+    public void setValues() {
         CombineData combineData = currentPlayer.getCombineData();
 
         txtHeight.setText(Float.toString(combineData.getHeight()));
@@ -157,4 +155,5 @@ public class CombineInput extends JFrame{
         txtCollege.setText(combineData.getCollege());
         txtYear.setText(Integer.toString(combineData.getCombineYear()));
     }
+
 }

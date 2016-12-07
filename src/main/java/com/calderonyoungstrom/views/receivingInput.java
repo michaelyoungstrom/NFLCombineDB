@@ -5,14 +5,15 @@ import com.calderonyoungstrom.model.ReceivingData;
 import com.calderonyoungstrom.util.DatabaseHelper;
 import com.calderonyoungstrom.util.PlayersHelper;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 /**
  * Created by mayoungstrom on 12/6/16.
  */
-public class receivingInput extends JFrame{
+public class receivingInput extends JFrame {
     private JPanel Panel1;
     private JButton btnBack;
     private JButton btnOk;
@@ -31,7 +32,7 @@ public class receivingInput extends JFrame{
         this.currentPlayer = player;
         this.isUpdate = isUpdate;
 
-        if (isUpdate){
+        if (isUpdate) {
             setValues();
         }
         initialize();
@@ -40,7 +41,7 @@ public class receivingInput extends JFrame{
     /**
      * Initializes the LoginForm
      */
-    private void initialize(){
+    private void initialize() {
         setContentPane(Panel1);
         pack();
 
@@ -60,8 +61,8 @@ public class receivingInput extends JFrame{
         });
     }
 
-    public void okClicked(){
-        try{
+    public void okClicked() {
+        try {
 
             int receptions = Integer.parseInt(txtReceptions.getText());
             float catchPerc = Float.parseFloat(txtCatchPerc.getText());
@@ -70,7 +71,7 @@ public class receivingInput extends JFrame{
             int touchdowns = Integer.parseInt(txtTouchdowns.getText());
             float yardsPerGame = Float.parseFloat(txtYardsPerGame.getText());
 
-            if (isUpdate){
+            if (isUpdate) {
                 PlayersHelper.updateReceiving(DatabaseHelper.loginToDB(), currentPlayer, receptions,
                         catchPerc, yards, yardsPerRec, touchdowns, yardsPerGame);
             } else {
@@ -79,19 +80,19 @@ public class receivingInput extends JFrame{
                                 touchdowns, yardsPerGame);
             }
 
-            if (isUpdate){
+            if (isUpdate) {
                 JOptionPane.showMessageDialog(this, "Receiving Data successfully updated!");
             } else {
                 JOptionPane.showMessageDialog(this, "Receiving Data successfully added!");
             }
             Panel1.setVisible(false);
             dispose();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Invalid input");
         }
     }
 
-    public void setValues(){
+    public void setValues() {
         ReceivingData receivingData = currentPlayer.getReceivingData();
 
         txtReceptions.setText(Integer.toString(receivingData.getReceptions()));
@@ -101,4 +102,5 @@ public class receivingInput extends JFrame{
         txtTouchdowns.setText(Integer.toString(receivingData.getTouchdowns()));
         txtYardsPerGame.setText(Float.toString(receivingData.getYardsPerGame()));
     }
+
 }
