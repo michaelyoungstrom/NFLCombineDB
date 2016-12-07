@@ -37,4 +37,19 @@ public class ReceivingData {
     public float getYardsPerGame(){ return yardsPerGame; }
 
 
+    public String getReceivingId() {
+        return receivingId;
+    }
+
+    public void setReceivingId(String receivingId) {
+        this.receivingId = receivingId;
+    }
+
+    public String getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
 }

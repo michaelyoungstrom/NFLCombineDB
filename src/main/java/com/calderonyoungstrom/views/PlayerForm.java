@@ -81,6 +81,7 @@ public class PlayerForm extends JPanel {
     }
 
     public void setPlayer(Player player) {
+        this.player = player;
         txtFirstName.setText(player.getFirstName());
         txtFirstName.repaint();
         txtLastName.setText(player.getLastName());

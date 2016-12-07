@@ -173,6 +173,7 @@ public class PlayersHelper {
         cs.setString(11, college);
         cs.setInt(12, combineYear);
         cs.executeQuery();
+        player.setCombineData(new CombineData(player.getPlayerId() + "Combine", player.getPlayerId(), height, weight, forty, twenty, threecone, vertical, broad, bench, college, combineYear));
     }
 
     public static void insertNewPassing(Connection connection, Player player, float compPerc, int yards,
@@ -188,6 +189,7 @@ public class PlayersHelper {
         cs.setInt(6, interceptions);
         cs.setFloat(7, rating);
         cs.executeQuery();
+        player.setPassingData(new PassingData(player.getPlayerId() + "Passing", player.getPlayerId(), compPerc, yards, touchdowns, interceptions, rating));
     }
 
     public static void insertNewRushing(Connection connection, Player player, int yards, int touchdowns, int longest,
@@ -203,6 +205,7 @@ public class PlayersHelper {
         cs.setFloat(6, yardsPerAttempt);
         cs.setFloat(7, yardsPerGame);
         cs.executeQuery();
+        player.setRushingData(new RushingData(player.getPlayerId() + "Rushing", player.getPlayerId(), yards, touchdowns, longest, yardsPerAttempt, yardsPerGame));
     }
 
     public static void insertNewReceiving(Connection connection, Player player, int receptions, float catchPerc,
@@ -220,6 +223,7 @@ public class PlayersHelper {
         cs.setInt(7, touchdowns);
         cs.setFloat(8, yardsPerGame);
         cs.executeQuery();
+        player.setReceivingData(new ReceivingData(player.getPlayerId() + "Receiving", player.getPlayerId(), receptions, catchPerc, yards, yardsPerRec, touchdowns, yardsPerGame));
     }
 
     public static void deletePlayer(Connection connection, String playerId)

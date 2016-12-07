@@ -13,7 +13,7 @@ import javax.swing.*;
 /**
  * Created by mayoungstrom on 12/6/16.
  */
-public class receivingInput extends JFrame {
+public class ReceivingInput extends JFrame {
     private JPanel Panel1;
     private JButton btnBack;
     private JButton btnOk;
@@ -25,14 +25,13 @@ public class receivingInput extends JFrame {
     private JTextField txtYardsPerGame;
 
     private Player currentPlayer;
-    private boolean isUpdate;
 
-    public receivingInput(Player player, boolean isUpdate) {
+
+    public ReceivingInput(Player player) {
         super("Receiving Input");
         this.currentPlayer = player;
-        this.isUpdate = isUpdate;
 
-        if (isUpdate) {
+        if (isUpdate()) {
             setValues();
         }
         initialize();
@@ -71,7 +70,7 @@ public class receivingInput extends JFrame {
             int touchdowns = Integer.parseInt(txtTouchdowns.getText());
             float yardsPerGame = Float.parseFloat(txtYardsPerGame.getText());
 
-            if (isUpdate) {
+            if (isUpdate()) {
                 PlayersHelper.updateReceiving(DatabaseHelper.loginToDB(), currentPlayer, receptions,
                         catchPerc, yards, yardsPerRec, touchdowns, yardsPerGame);
             } else {
@@ -80,7 +79,7 @@ public class receivingInput extends JFrame {
                                 touchdowns, yardsPerGame);
             }
 
-            if (isUpdate) {
+            if (isUpdate()) {
                 JOptionPane.showMessageDialog(this, "Receiving Data successfully updated!");
             } else {
                 JOptionPane.showMessageDialog(this, "Receiving Data successfully added!");
@@ -90,6 +89,10 @@ public class receivingInput extends JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Invalid input");
         }
+    }
+
+    private boolean isUpdate() {
+        return currentPlayer.getReceivingData() != null && currentPlayer.getReceivingData().getReceivingId() != null;
     }
 
     public void setValues() {

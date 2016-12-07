@@ -28,13 +28,10 @@ public class SearchPlayer extends JFrame {
     private JPanel panelResultList;
     private JList<Player> listResult;
     private JPanel searchPanel;
-    private JPanel playerDetailsPanel;
     private JPanel savePlayerFormContainer;
-    private JPanel buttonsPanel;
     private JButton btnDelete;
     private JButton btnUpdate;
     private JButton btnStats;
-    private JButton btnAdd;
     private boolean loading = false;
     private ArrayList<Player> playersList;
     private Player selectedPlayer;
@@ -43,12 +40,13 @@ public class SearchPlayer extends JFrame {
     private int selectedIndex = -1;
     private DefaultListModel<Player> listModel;
     private PlayerForm playerForm;
+    private JPanel playerDetailsPanel_;
+    private JButton newPlayerButton;
 
 
     public SearchPlayer() {
         super("Search Player");
         initialize();
-
     }
 
     private void initialize() {
@@ -59,7 +57,10 @@ public class SearchPlayer extends JFrame {
         btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (txtFirstName.getText().isEmpty() && txtLastName.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(SearchPlayer.this, "Please enter a first name or a last name");
+                    return;
+                }
                 System.out.println("User searched");
                 System.out.println("First name: " + txtFirstName.getText());
                 System.out.println("Last name: " + txtLastName.getText());
@@ -134,20 +135,43 @@ public class SearchPlayer extends JFrame {
             }
         });
 
-        btnAdd.addActionListener(new ActionListener() {
+        newPlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    addClicked();
-                } catch (ClassNotFoundException e1) {
-                    e1.printStackTrace();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                } catch (InstantiationException e1) {
-                    e1.printStackTrace();
-                } catch (IllegalAccessException e1) {
-                    e1.printStackTrace();
-                }
+                JDialog jDialog = new JDialog(SearchPlayer.this, "New player", true);
+
+                PlayerForm dialogForm = new PlayerForm();
+                dialogForm.setOnButtonClickedListener(new PlayerForm.OnButtonClickedListener() {
+                    @Override
+                    public void onButtonClickedListener(Player player, JPanel parent) {
+                        if (player.getFirstName().isEmpty()) {
+                            JOptionPane.showMessageDialog(parent, "First name can't be empty");
+                            return;
+                        } else if (player.getLastName().isEmpty()) {
+                            JOptionPane.showMessageDialog(parent, "Last name can't be empty");
+                            return;
+                        } else if (player.getTeam().isEmpty()) {
+                            JOptionPane.showMessageDialog(parent, "Team name can't be empty");
+                            return;
+                        }
+
+                        try {
+                            selectedPlayer = PlayersHelper.insertNewPlayer(DatabaseHelper.loginToDB(), player.getFirstName(), player.getLastName(), player.getTeam());
+                            playerForm.setPlayer(selectedPlayer);
+                            setPlayerDetailsButtonsEnabled(true);
+                            JOptionPane.showMessageDialog(parent, "Player: " + player.getFirstName() + " " + player.getLastName() + " " + player.getTeam() + " Added successfully!");
+                            jDialog.setVisible(false);
+                        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                jDialog.add(dialogForm.getRootPanel());
+                jDialog.pack();
+                jDialog.setLocationRelativeTo(SearchPlayer.this);
+                jDialog.setVisible(true);
             }
         });
 
@@ -220,110 +244,16 @@ public class SearchPlayer extends JFrame {
         }
     }
 
-    private void addClicked() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-        if (selectedPlayer == null) {
-            JDialog jDialog = new JDialog(this, "New player", true);
-
-            PlayerForm dialogForm = new PlayerForm();
-            dialogForm.setOnButtonClickedListener(new PlayerForm.OnButtonClickedListener() {
-                @Override
-                public void onButtonClickedListener(Player player, JPanel parent) {
-                    if (player.getFirstName().isEmpty()) {
-                        JOptionPane.showMessageDialog(parent, "First name can't be empty");
-                        return;
-                    } else if (player.getLastName().isEmpty()) {
-                        JOptionPane.showMessageDialog(parent, "Last name can't be empty");
-                        return;
-                    } else if (player.getTeam().isEmpty()) {
-                        JOptionPane.showMessageDialog(parent, "Team name can't be empty");
-                        return;
-                    }
-
-                    try {
-                        selectedPlayer = PlayersHelper.insertNewPlayer(DatabaseHelper.loginToDB(), player.getFirstName(), player.getLastName(), player.getTeam());
-                        playerForm.setPlayer(selectedPlayer);
-                        setPlayerDetailsButtonsEnabled(true);
-                        JOptionPane.showMessageDialog(parent, "Player: " + player.getFirstName() + " " + player.getLastName() + " " + player.getTeam() + " Added successfully!");
-                        jDialog.setVisible(false);
-                    } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            });
-
-            jDialog.add(dialogForm.getRootPanel());
-            jDialog.pack();
-            jDialog.setLocationRelativeTo(this);
-            jDialog.setVisible(true);
-
-        } else {
-
-            Vector<String> buttonVec = new Vector<String>();
-
-            PlayersHelper.getCombineData(DatabaseHelper.loginToDB(), selectedPlayer);
-            PlayersHelper.getPassingData(DatabaseHelper.loginToDB(), selectedPlayer);
-            PlayersHelper.getReceivingData(DatabaseHelper.loginToDB(), selectedPlayer);
-            PlayersHelper.getRushingData(DatabaseHelper.loginToDB(), selectedPlayer);
-
-            if (selectedPlayer.getCombineData() == null) {
-                buttonVec.add("Combine");
-            }
-
-            if (selectedPlayer.getPassingData() == null) {
-                buttonVec.add("Passing");
-            }
-
-            if (selectedPlayer.getRushingData() == null) {
-                buttonVec.add("Rushing");
-            }
-
-            if (selectedPlayer.getReceivingData() == null) {
-                buttonVec.add("Receiving");
-            }
-
-            if (buttonVec.size() == 0) {
-                JOptionPane.showMessageDialog(this, "There are no empty stat categories to add");
-            } else {
-
-                String[] buttons = buttonVec.toArray(new String[buttonVec.size()]);
-
-                int rc = JOptionPane.showOptionDialog(this, "Which stat would you like to add?", "Select What to Add",
-                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, null);
-
-                String choice = buttonVec.get(rc);
-
-                switch (choice) {
-                    case "Combine":
-                        CombineInput combine = new CombineInput(selectedPlayer, false);
-                        combine.setVisible(true);
-                        break;
-                    case "Passing":
-                        passingInput passing = new passingInput(selectedPlayer, false);
-                        passing.setVisible(true);
-                        break;
-                    case "Rushing":
-                        rushingInput rushing = new rushingInput(selectedPlayer, false);
-                        rushing.setVisible(true);
-                        break;
-                    case "Receiving":
-                        receivingInput receiving = new receivingInput(selectedPlayer, false);
-                        receiving.setVisible(true);
-                        break;
-                }
-
-            }
-
-        }
-    }
-
     private void updateClicked() throws ClassNotFoundException, SQLException,
             InstantiationException, IllegalAccessException {
-        if (selectedIndex < 0) {
+        if (selectedIndex < 0 && (selectedPlayer == null || selectedPlayer.getPlayerId() == null)) {
             return;
         }
+        Player playerToUpdate = selectedPlayer;
+        if (selectedIndex >= 0) {
+            playerToUpdate = listModel.getElementAt(selectedIndex);
+        }
 
-        Player playerToUpdate = listModel.getElementAt(selectedIndex);
 
         Vector<String> buttonVec = new Vector<String>();
 
@@ -334,21 +264,14 @@ public class SearchPlayer extends JFrame {
 
         buttonVec.add("Player");
 
-        if (selectedPlayer.getCombineData() != null) {
-            buttonVec.add("Combine");
-        }
+        buttonVec.add("Combine");
 
-        if (selectedPlayer.getPassingData() != null) {
-            buttonVec.add("Passing");
-        }
+        buttonVec.add("Passing");
 
-        if (selectedPlayer.getRushingData() != null) {
-            buttonVec.add("Rushing");
-        }
+        buttonVec.add("Rushing");
 
-        if (selectedPlayer.getReceivingData() != null) {
-            buttonVec.add("Receiving");
-        }
+        buttonVec.add("Receiving");
+
 
         String[] buttons = buttonVec.toArray(new String[buttonVec.size()]);
 
@@ -370,7 +293,7 @@ public class SearchPlayer extends JFrame {
                 String newTeam = selectedPlayer.getTeam();
 
                 if (newFirstName.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "First name can't be empty");
+                    JOptionPane.showMessageDialog(SearchPlayer.this.rootPanel, "First name can't be empty");
                     return;
                 } else if (newLastName.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Last name can't be empty");
@@ -386,24 +309,29 @@ public class SearchPlayer extends JFrame {
 
                 try {
                     PlayersHelper.updatePlayer(DatabaseHelper.loginToDB(), playerToUpdate, newFirstName, newLastName, newTeam);
+                    selectedPlayer = playerToUpdate;
                 } catch (SQLException | IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
                 break;
             case "Combine":
-                CombineInput combine = new CombineInput(selectedPlayer, true);
+                CombineInput combine = new CombineInput(selectedPlayer);
+                combine.setLocationRelativeTo(SearchPlayer.this);
                 combine.setVisible(true);
                 break;
             case "Passing":
-                passingInput passing = new passingInput(selectedPlayer, true);
+                PassingInput passing = new PassingInput(selectedPlayer);
+                passing.setLocationRelativeTo(SearchPlayer.this);
                 passing.setVisible(true);
                 break;
             case "Rushing":
-                rushingInput rushing = new rushingInput(selectedPlayer, true);
+                RushingInput rushing = new RushingInput(selectedPlayer);
+                rushing.setLocationRelativeTo(SearchPlayer.this);
                 rushing.setVisible(true);
                 break;
             case "Receiving":
-                receivingInput receiving = new receivingInput(selectedPlayer, true);
+                ReceivingInput receiving = new ReceivingInput(selectedPlayer);
+                receiving.setLocationRelativeTo(SearchPlayer.this);
                 receiving.setVisible(true);
                 break;
         }

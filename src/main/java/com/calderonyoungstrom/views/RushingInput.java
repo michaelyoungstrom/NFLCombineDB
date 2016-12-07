@@ -13,7 +13,7 @@ import javax.swing.*;
 /**
  * Created by mayoungstrom on 12/6/16.
  */
-public class rushingInput extends JFrame {
+public class RushingInput extends JFrame {
     private JPanel Panel1;
     private JButton btnBack;
     private JTextField txtYards;
@@ -24,14 +24,13 @@ public class rushingInput extends JFrame {
     private JButton btnOk;
 
     private Player currentPlayer;
-    private boolean isUpdate;
 
-    public rushingInput(Player player, boolean isUpdate) {
+
+    public RushingInput(Player player) {
         super("Rushing Input");
         this.currentPlayer = player;
-        this.isUpdate = isUpdate;
 
-        if (isUpdate) {
+        if (isUpdate()) {
             setValues();
         }
 
@@ -70,7 +69,7 @@ public class rushingInput extends JFrame {
             float yardsPerAttempt = Float.parseFloat(txtYardsPerAtt.getText());
             float yardsPerGame = Float.parseFloat(txtYardsPerGame.getText());
 
-            if (isUpdate) {
+            if (isUpdate()) {
                 PlayersHelper.updateRushing(DatabaseHelper.loginToDB(), currentPlayer,
                         yards, touchdowns, longest, yardsPerAttempt, yardsPerGame);
             } else {
@@ -79,7 +78,7 @@ public class rushingInput extends JFrame {
                                 yardsPerGame);
             }
 
-            if (isUpdate) {
+            if (isUpdate()) {
                 JOptionPane.showMessageDialog(this, "Rushing Data successfully updated!");
             } else {
                 JOptionPane.showMessageDialog(this, "Rushing Data successfully added!");
@@ -90,6 +89,11 @@ public class rushingInput extends JFrame {
             JOptionPane.showMessageDialog(this, "Invalid input");
         }
     }
+
+    private boolean isUpdate() {
+        return currentPlayer.getRushingData() != null && currentPlayer.getRushingData().getRushingId() != null;
+    }
+
 
     public void setValues() {
         RushingData rushingData = currentPlayer.getRushingData();

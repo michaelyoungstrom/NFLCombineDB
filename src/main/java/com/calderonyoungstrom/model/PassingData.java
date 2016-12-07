@@ -42,4 +42,20 @@ public class PassingData {
     public float getRating(){
         return rating;
     }
+
+    public String getPassingId() {
+        return passingId;
+    }
+
+    public void setPassingId(String passingId) {
+        this.passingId = passingId;
+    }
+
+    public String getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
 }

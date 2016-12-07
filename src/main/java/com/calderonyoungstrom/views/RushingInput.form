@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.calderonyoungstrom.views.passingInput">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.calderonyoungstrom.views.RushingInput">
   <grid id="27dc6" binding="Panel1" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
@@ -8,47 +8,47 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="60bf6" class="javax.swing.JLabel">
+      <component id="d6ee7" class="javax.swing.JLabel">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Completion %: "/>
-        </properties>
-      </component>
-      <component id="75035" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Yards:"/>
         </properties>
       </component>
-      <component id="b77d0" class="javax.swing.JLabel">
+      <component id="64b32" class="javax.swing.JLabel">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Touchdowns:"/>
         </properties>
       </component>
-      <component id="50969" class="javax.swing.JLabel">
+      <component id="55efa" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Longest: "/>
+        </properties>
+      </component>
+      <component id="aec1c" class="javax.swing.JLabel">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Interceptions:"/>
+          <text value="Yards Per Attempt: "/>
         </properties>
       </component>
-      <component id="c0554" class="javax.swing.JLabel">
+      <component id="1d808" class="javax.swing.JLabel">
         <constraints>
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Rating:"/>
+          <text value="Yards Per Game:"/>
         </properties>
       </component>
-      <component id="7f7df" class="javax.swing.JButton" binding="btnBack">
+      <component id="a92d7" class="javax.swing.JButton" binding="btnBack">
         <constraints>
           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -56,25 +56,15 @@
           <text value="Back"/>
         </properties>
       </component>
-      <component id="d4fb5" class="javax.swing.JButton" binding="btnOk">
-        <constraints>
-          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="OK"/>
-        </properties>
-      </component>
-      <component id="37a46" class="javax.swing.JTextField" binding="txtCompPerc">
+      <component id="89721" class="javax.swing.JTextField" binding="txtYards">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties>
-          <text value=""/>
-        </properties>
+        <properties/>
       </component>
-      <component id="59e2a" class="javax.swing.JTextField" binding="txtYards">
+      <component id="20e92" class="javax.swing.JTextField" binding="txtTouchdowns">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -82,7 +72,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="bc4c0" class="javax.swing.JTextField" binding="txtTouchdowns">
+      <component id="18d6a" class="javax.swing.JTextField" binding="txtLongest">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -90,7 +80,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="27459" class="javax.swing.JTextField" binding="txtInterceptions">
+      <component id="8086e" class="javax.swing.JTextField" binding="txtYardsPerAtt">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -98,13 +88,21 @@
         </constraints>
         <properties/>
       </component>
-      <component id="7515" class="javax.swing.JTextField" binding="txtRating">
+      <component id="62492" class="javax.swing.JTextField" binding="txtYardsPerGame">
         <constraints>
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
         <properties/>
+      </component>
+      <component id="edc7f" class="javax.swing.JButton" binding="btnOk">
+        <constraints>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="OK"/>
+        </properties>
       </component>
     </children>
   </grid>

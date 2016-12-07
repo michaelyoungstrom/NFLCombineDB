@@ -34,4 +34,19 @@ public class RushingData {
 
     public float getYardsPerGame(){ return yardsPerGame; }
 
+    public String getRushingId() {
+        return rushingId;
+    }
+
+    public void setRushingId(String rushingId) {
+        this.rushingId = rushingId;
+    }
+
+    public String getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
 }

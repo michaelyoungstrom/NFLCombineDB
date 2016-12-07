@@ -29,12 +29,10 @@ public class CombineInput extends JFrame {
     private JPanel Panel1;
 
     private Player currentPlayer;
-    private boolean isUpdate;
 
-    public CombineInput(Player player, boolean isUpdate) {
+    public CombineInput(Player player) {
         super("Combine Input");
         this.currentPlayer = player;
-        this.isUpdate = isUpdate;
         initialize();
     }
 
@@ -45,7 +43,7 @@ public class CombineInput extends JFrame {
         setContentPane(Panel1);
         pack();
 
-        if (isUpdate) {
+        if (isUpdate()) {
             setValues();
         }
 
@@ -119,7 +117,7 @@ public class CombineInput extends JFrame {
             String college = txtCollege.getText();
             int combineYear = Integer.parseInt(txtYear.getText());
 
-            if (isUpdate) {
+            if (isUpdate()) {
                 PlayersHelper.updateCombine(DatabaseHelper.loginToDB(), currentPlayer, height, weight,
                         forty, twenty, threecone, vertical, broad, bench, college, combineYear);
             } else {
@@ -128,7 +126,7 @@ public class CombineInput extends JFrame {
                                 forty, twenty, threecone, vertical, broad, bench, college, combineYear);
             }
 
-            if (isUpdate) {
+            if (isUpdate()) {
                 JOptionPane.showMessageDialog(this, "Combine Data successfully updated!");
             } else {
                 JOptionPane.showMessageDialog(this, "Combine Data successfully added!");
@@ -154,6 +152,10 @@ public class CombineInput extends JFrame {
         txtBench.setText(Integer.toString(combineData.getBench()));
         txtCollege.setText(combineData.getCollege());
         txtYear.setText(Integer.toString(combineData.getCombineYear()));
+    }
+
+    private boolean isUpdate() {
+        return currentPlayer.getCombineData() != null && currentPlayer.getCombineData().getCombineId() != null;
     }
 
 }

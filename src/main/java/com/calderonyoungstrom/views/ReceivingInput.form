@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.calderonyoungstrom.views.rushingInput">
-  <grid id="27dc6" binding="Panel1" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.calderonyoungstrom.views.ReceivingInput">
+  <grid id="27dc6" binding="Panel1" layout-manager="GridLayoutManager" row-count="7" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
@@ -8,55 +8,71 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="d6ee7" class="javax.swing.JLabel">
+      <component id="b3676" class="javax.swing.JLabel">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Receptions: "/>
+        </properties>
+      </component>
+      <component id="57427" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Catch %: "/>
+        </properties>
+      </component>
+      <component id="468e8" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Yards:"/>
         </properties>
       </component>
-      <component id="64b32" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Touchdowns:"/>
-        </properties>
-      </component>
-      <component id="55efa" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Longest: "/>
-        </properties>
-      </component>
-      <component id="aec1c" class="javax.swing.JLabel">
+      <component id="76338" class="javax.swing.JLabel">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Yards Per Attempt: "/>
+          <text value="Yards Per Receptions: "/>
         </properties>
       </component>
-      <component id="1d808" class="javax.swing.JLabel">
+      <component id="1737a" class="javax.swing.JLabel">
         <constraints>
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Yards Per Game:"/>
+          <text value="Touchdowns: "/>
         </properties>
       </component>
-      <component id="a92d7" class="javax.swing.JButton" binding="btnBack">
+      <component id="f6a93" class="javax.swing.JLabel">
         <constraints>
-          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Yards Per Game: "/>
+        </properties>
+      </component>
+      <component id="125ed" class="javax.swing.JButton" binding="btnBack">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Back"/>
         </properties>
       </component>
-      <component id="89721" class="javax.swing.JTextField" binding="txtYards">
+      <component id="b6ba6" class="javax.swing.JButton" binding="btnOk">
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="OK"/>
+        </properties>
+      </component>
+      <component id="e72e5" class="javax.swing.JTextField" binding="txtReceptions">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -64,7 +80,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="20e92" class="javax.swing.JTextField" binding="txtTouchdowns">
+      <component id="2044d" class="javax.swing.JTextField" binding="txtCatchPerc">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -72,7 +88,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="18d6a" class="javax.swing.JTextField" binding="txtLongest">
+      <component id="64bfc" class="javax.swing.JTextField" binding="txtYards">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -80,7 +96,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="8086e" class="javax.swing.JTextField" binding="txtYardsPerAtt">
+      <component id="1aa94" class="javax.swing.JTextField" binding="txtYardsPerRec">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -88,7 +104,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="62492" class="javax.swing.JTextField" binding="txtYardsPerGame">
+      <component id="68f0" class="javax.swing.JTextField" binding="txtTouchdowns">
         <constraints>
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -96,13 +112,13 @@
         </constraints>
         <properties/>
       </component>
-      <component id="edc7f" class="javax.swing.JButton" binding="btnOk">
+      <component id="ac21a" class="javax.swing.JTextField" binding="txtYardsPerGame">
         <constraints>
-          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
         </constraints>
-        <properties>
-          <text value="OK"/>
-        </properties>
+        <properties/>
       </component>
     </children>
   </grid>

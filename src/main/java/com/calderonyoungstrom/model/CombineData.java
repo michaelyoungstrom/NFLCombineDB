@@ -65,4 +65,20 @@ public class CombineData {
     public String getCollege(){ return this.college; }
 
     public int getCombineYear(){ return this.combineYear; }
+
+    public String getCombineId() {
+        return combineId;
+    }
+
+    public void setCombineId(String combineId) {
+        this.combineId = combineId;
+    }
+
+    public String getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
 }

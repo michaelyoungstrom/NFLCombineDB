@@ -13,7 +13,7 @@ import javax.swing.*;
 /**
  * Created by mayoungstrom on 12/6/16.
  */
-public class passingInput extends JFrame {
+public class PassingInput extends JFrame {
     private JButton btnBack;
     private JButton btnOk;
     private JTextField txtCompPerc;
@@ -24,14 +24,12 @@ public class passingInput extends JFrame {
     private JPanel Panel1;
 
     private Player currentPlayer;
-    private boolean isUpdate;
 
-    public passingInput(Player player, boolean isUpdate) {
+    public PassingInput(Player player) {
         super("Passing Input");
         this.currentPlayer = player;
-        this.isUpdate = isUpdate;
 
-        if (isUpdate) {
+        if (isUpdate()) {
             setValues();
         }
 
@@ -70,7 +68,7 @@ public class passingInput extends JFrame {
             int interceptions = Integer.parseInt(txtInterceptions.getText());
             float rating = Float.parseFloat(txtRating.getText());
 
-            if (isUpdate) {
+            if (isUpdate()) {
                 PlayersHelper.updatePassing(DatabaseHelper.loginToDB(), currentPlayer,
                         compPerc, yards, touchdowns, interceptions, rating);
             } else {
@@ -78,7 +76,7 @@ public class passingInput extends JFrame {
                         (DatabaseHelper.loginToDB(), currentPlayer, compPerc, yards, touchdowns, interceptions, rating);
             }
 
-            if (isUpdate) {
+            if (isUpdate()) {
                 JOptionPane.showMessageDialog(this, "Passing Data successfully updated!");
             } else {
                 JOptionPane.showMessageDialog(this, "Passing Data successfully added!");
@@ -99,6 +97,10 @@ public class passingInput extends JFrame {
         txtTouchdowns.setText(Integer.toString(passingData.getTouchdowns()));
         txtInterceptions.setText(Integer.toString(passingData.getInterceptions()));
         txtRating.setText(Float.toString(passingData.getRating()));
+    }
+
+    private boolean isUpdate() {
+        return currentPlayer.getPlayerId() != null && currentPlayer.getPassingData() != null && currentPlayer.getPassingData().getPassingId() != null;
     }
 
 }
