@@ -363,9 +363,11 @@ public class SearchPlayer extends JFrame {
 
         switch(choice){
             case "Player":
-                String newFirstName = txtDetailsFirstName.getText();
-                String newLastName = txtDetailsLastName.getText();
-                String newTeam = txtDetailsTeam.getText();
+
+                selectedPlayer = playerForm.getPlayer();
+                String newFirstName = selectedPlayer.getFirstName();
+                String newLastName = selectedPlayer.getLastName();
+                String newTeam = selectedPlayer.getTeam();
 
                 if (newFirstName.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "First name can't be empty");
