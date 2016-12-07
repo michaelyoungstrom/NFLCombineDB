@@ -37,7 +37,7 @@ All of the CRUD opeartions are supported by this application.
 
 Create a new player:
 
-- Click the Add button
+- Click the New Player button
 - If prompted with options, click the Player button
 - Enter the desired player information and click Save
 
