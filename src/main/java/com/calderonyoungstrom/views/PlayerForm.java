@@ -28,19 +28,22 @@ public class PlayerForm extends JPanel {
     }
 
     private void initialize() {
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (onButtonClickedListener != null) {
-                    onButtonClickedListener.onButtonClickedListener(getPlayer(), getRootPanel());
+        if (saveButton != null) {
+            saveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (onButtonClickedListener != null) {
+                        onButtonClickedListener.onButtonClickedListener(getPlayer(), getRootPanel());
+                    }
                 }
-            }
-        });
+            });
 
-        saveButton.setVisible(this.buttonVisible);
-        if (buttonText != null) {
-            saveButton.setText(buttonText);
+            saveButton.setVisible(this.buttonVisible);
+            if (buttonText != null) {
+                saveButton.setText(buttonText);
+            }
         }
+
     }
 
     public void setButtonText(String buttonText) {
