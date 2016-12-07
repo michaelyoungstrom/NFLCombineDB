@@ -1,6 +1,7 @@
 package com.calderonyoungstrom.model;
 
 public class PassingData {
+    public final static String PASSING_ID_KEY = "Passing";
 
     private String passingId;
     private String playerId;

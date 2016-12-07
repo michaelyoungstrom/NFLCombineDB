@@ -1,7 +1,7 @@
 package com.calderonyoungstrom.model;
 
 public class ReceivingData {
-
+    public final static String RECEIVING_ID_KEY = "Receiving";
     private String receivingId;
     private String playerId;
     private int receptions;

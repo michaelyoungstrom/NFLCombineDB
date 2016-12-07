@@ -4,6 +4,7 @@ import com.calderonyoungstrom.model.*;
 import com.calderonyoungstrom.util.DatabaseHelper;
 import com.calderonyoungstrom.util.PlayersHelper;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class SearchPlayer extends JFrame {
     private JList<Player> listResult;
     private JPanel searchPanel;
     private JPanel playerDetailsPanel;
-    private JPanel namePanel;
+    private JPanel savePlayerFormContainer;
     private JPanel buttonsPanel;
     private JButton btnDelete;
     private JButton btnUpdate;
@@ -45,6 +46,7 @@ public class SearchPlayer extends JFrame {
     private String currentSearchTermLastName = null;
     private int selectedIndex = -1;
     private DefaultListModel<Player> listModel;
+    private PlayerForm playerForm;
 
 
     public SearchPlayer() {
@@ -77,15 +79,14 @@ public class SearchPlayer extends JFrame {
         listResult.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if (e.getFirstIndex() > -1) {
-                    selectedPlayer = playersList.get(e.getFirstIndex());
-
-                    txtDetailsFirstName.setText(selectedPlayer.getFirstName());
-                    txtDetailsLastName.setText(selectedPlayer.getLastName());
-                    txtDetailsTeam.setText(selectedPlayer.getTeam());
+                int index = listResult.getSelectedIndex();
+                if (index > -1) {
+                    selectedPlayer = playersList.get(index);
+                    selectedIndex = index;
+                    playerForm.setPlayer(selectedPlayer);
                     setPlayerDetailsButtonsEnabled(true);
-                    selectedIndex = e.getFirstIndex();
                 } else {
+                    selectedPlayer = null;
                     setPlayerDetailsButtonsEnabled(false);
                 }
             }
@@ -156,6 +157,8 @@ public class SearchPlayer extends JFrame {
 
         setPlayerDetailsButtonsEnabled(false);
 
+        playerForm.setButtonVisible(false);
+
     }
 
     private void searchPlayers() {
@@ -223,28 +226,41 @@ public class SearchPlayer extends JFrame {
 
     private void addClicked() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         if (selectedPlayer == null) {
+            JDialog jDialog = new JDialog(this, "New player", true);
 
-            String newFirstName = txtDetailsFirstName.getText();
-            String newLastName = txtDetailsLastName.getText();
-            String newTeam = txtDetailsTeam.getText();
+            PlayerForm dialogForm = new PlayerForm();
+            dialogForm.setOnButtonClickedListener(new PlayerForm.OnButtonClickedListener() {
+                @Override
+                public void onButtonClickedListener(Player player, JPanel parent) {
+                    if (player.getFirstName().isEmpty()) {
+                        JOptionPane.showMessageDialog(parent, "First name can't be empty");
+                        return;
+                    } else if (player.getLastName().isEmpty()) {
+                        JOptionPane.showMessageDialog(parent, "Last name can't be empty");
+                        return;
+                    } else if (player.getTeam().isEmpty()) {
+                        JOptionPane.showMessageDialog(parent, "Team name can't be empty");
+                        return;
+                    }
 
-            if (newFirstName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "First name can't be empty");
-                return;
-            } else if (newLastName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Last name can't be empty");
-                return;
-            } else if (newTeam.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Team name can't be empty");
-                return;
-            }
+                    try {
+                        selectedPlayer = PlayersHelper.insertNewPlayer(DatabaseHelper.loginToDB(), player.getFirstName(), player.getLastName(), player.getTeam());
+                        playerForm.setPlayer(selectedPlayer);
+                        setPlayerDetailsButtonsEnabled(true);
+                        JOptionPane.showMessageDialog(parent, "Player: " + player.getFirstName() + " " + player.getLastName() + " " + player.getTeam() + " Added successfully!");
+                        jDialog.setVisible(false);
+                    } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
 
-            try {
-                PlayersHelper.insertNewPlayer(DatabaseHelper.loginToDB(), newFirstName, newLastName, newTeam);
-                JOptionPane.showMessageDialog(this, "Player: " + newFirstName + " " + newLastName + " " + newTeam + " Added successfully!");
-            } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
+                }
+            });
+
+            jDialog.add(dialogForm.getRootPanel());
+            jDialog.pack();
+            jDialog.setLocationRelativeTo(this);
+            jDialog.setVisible(true);
+
         } else {
 
             Vector<String> buttonVec = new Vector<String>();
@@ -283,7 +299,7 @@ public class SearchPlayer extends JFrame {
 
                 switch(choice){
                     case "Combine":
-                        combineInput combine = new combineInput(selectedPlayer, false);
+                        CombineInput combine = new CombineInput(selectedPlayer, false);
                         combine.setVisible(true);
                         break;
                     case "Passing":
@@ -373,7 +389,7 @@ public class SearchPlayer extends JFrame {
                 }
                 break;
             case "Combine":
-                combineInput combine = new combineInput(selectedPlayer, true);
+                CombineInput combine = new CombineInput(selectedPlayer, true);
                 combine.setVisible(true);
                 break;
             case "Passing":

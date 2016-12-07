@@ -132,17 +132,26 @@ public class PlayersHelper {
 
     }
 
-    public static void insertNewPlayer(Connection connection, String fname, String lname, String team)
+    public static Player insertNewPlayer(Connection connection, String fname, String lname, String team)
             throws SQLException {
         createProcedureInsertNewPlayer(connection);
+
         String playerId = generatePlayerId(connection, fname, lname);
+
 
         CallableStatement cs = connection.prepareCall("{call INSERTNEWPLAYER(?,?,?,?)}");
         cs.setString(1, playerId);
         cs.setString(2, fname);
         cs.setString(3, lname);
         cs.setString(4, team);
-        cs.executeQuery();
+        int affectedRows = cs.executeUpdate();
+
+        if (affectedRows != 0) {
+            return new Player(playerId, fname, lname, team);
+        } else {
+            return null;
+        }
+
     }
 
     public static void insertNewCombine(Connection connection, Player player, float height, int weight, float forty,

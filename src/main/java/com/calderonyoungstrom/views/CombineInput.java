@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by mayoungstrom on 12/6/16.
  */
-public class combineInput extends JFrame{
+public class CombineInput extends JFrame{
     private JButton btnBack;
     private JTextField txtHeight;
     private JTextField txtWeight;
@@ -33,7 +33,7 @@ public class combineInput extends JFrame{
     private Player currentPlayer;
     private boolean isUpdate;
 
-    public combineInput(Player player, boolean isUpdate) {
+    public CombineInput(Player player, boolean isUpdate) {
         super("Combine Input");
         this.currentPlayer = player;
         this.isUpdate = isUpdate;

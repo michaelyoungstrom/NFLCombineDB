@@ -20,8 +20,7 @@ public class DatabaseHelper {
             IllegalAccessException, InstantiationException {
         //Connect to DB with credentials
         String url = "jdbc:mysql://localhost:3306/footballProject?autoReconnect=true&useSSL=false";
-        Connection connection = DriverManager.getConnection(url, username, password);
 
-        return connection;
+        return DriverManager.getConnection(url, username, password);
     }
 }

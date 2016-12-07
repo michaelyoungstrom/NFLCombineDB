@@ -2,6 +2,8 @@ package com.calderonyoungstrom.model;
 
 public class RushingData {
 
+    public final static String RUSHING_ID_KEY = "Rushing";
+
     private String rushingId;
     private String playerId;
     private int yards;
