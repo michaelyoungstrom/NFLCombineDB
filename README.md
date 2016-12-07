@@ -29,7 +29,7 @@ That will output `NFLCombineDB.jar` file under the `target` directory
 
 Double click on the .jar file or run 
 
-`$java -jar target/NFLCombineDB`
+`$java -jar target/NFLCombineDB.jar`
 
 ## GUI Instructions
 
