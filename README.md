@@ -7,6 +7,12 @@
 - Running MySQL server 
 - Maven
 
+### Create create database 
+
+- run the contents of or import MySQL/createFootballProjectDB.sql
+
+This will create the database `footballProject` on which this project depends on
+
 ### Update the `DatabaseHelper`
 
 Add the JDBC URL and database credentials to the DatabaseHelper
@@ -17,11 +23,11 @@ cd to the project's directory
 
 From the project's directory:
 
-`$mvn clean compile assembly:single`
+`$mvn clean install`
 
-That will output a `.jar` file under the `target` directory
+That will output `NFLCombineDB.jar` file under the `target` directory
 
 Double click on the .jar file or run 
 
-`$java -jar `
+`$java -jar target/NFLCombineDB`
 
